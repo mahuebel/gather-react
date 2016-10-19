@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data'
 
+import { Gathers } from '../api/gathers.js';
+
 import Gather from './Gather.jsx';
 
 class App extends Component {

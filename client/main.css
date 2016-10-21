@@ -38,7 +38,7 @@ label {
 }
 
 .picker  {
-	width: 50%;
+	/*width: 50%;*/
 }
 
 .place-picker {
@@ -51,7 +51,7 @@ input {
 	padding-left: 5px;
 	font-size: 1rem;
 	display: block;
-	width: 100%; 
+	/*width: 100%; */
 	margin-bottom: 10px;
 
 }
@@ -60,7 +60,7 @@ input {
 	font-family: 'Roboto', sans-serif;
 }
 
-#PlacesAutocomplete__autocomplete-container i.fa, div {
+#PlacesAutocomplete__autocomplete-container i.fa {
 
-	margin-right: 5px;
+	 margin-right: 5px;
 }

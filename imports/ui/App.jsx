@@ -3,13 +3,13 @@ import { createContainer } from 'meteor/react-meteor-data';
 
 import { Gathers } from '../api/gathers.js';
 
-// import GooglePlaces from 'react-google-places-suggest';
 
 import Gather from './Gather.jsx';
-import PlacePicker from './components/PlacePicker.jsx';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import DateTimePickers from './components/DateTimePickers.jsx';
+import Pickers from './components/Pickers.jsx';
 import NavBar from './components/NavBar.jsx';
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 
 const Place = ({prediction, onClick}) => {
     return (
@@ -19,14 +19,6 @@ const Place = ({prediction, onClick}) => {
     )
 }
  
-// const Places = function({onClickPlace}) {
-//   return <GooglePlaces
-//     options={{input: 'wrapTX'}}
-//     itemComponent={Place}
-//     itemProps={{onClick: onClickPlace}} />
-// }
-
-
 class App extends Component {
 	renderGathers() {
 		return this.props.gathers.map((gather) => (
@@ -48,10 +40,7 @@ class App extends Component {
 
 				<div className="container">
 					<header>
-						<MuiThemeProvider>
-							<DateTimePickers />
-						</MuiThemeProvider>
-						<PlacePicker />
+						<Pickers />
 					</header>
 
 					<ul>

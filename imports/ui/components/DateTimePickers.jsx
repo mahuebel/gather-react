@@ -2,6 +2,9 @@ import React from 'react';
 import TimePicker from 'material-ui/TimePicker';
 import DatePicker from 'material-ui/DatePicker';
 
+import { Row, Col } from 'react-flexbox-grid';
+
+
 
 export default class DateTimePickers extends React.Component {
 
@@ -23,22 +26,28 @@ export default class DateTimePickers extends React.Component {
   render() {
     return (
       <div>
-        <DatePicker
-          className="picker"
-          hintText="Pick a Date"
-          value={this.state.controlledDate}
-          minDate={new Date()}
-          onChange={this.handleDateChange}
-          autoOk={true}
-        />
-        <TimePicker
-          className="picker"
-          format="ampm"
-          hintText="Pick a Time"
-          value={this.state.value12}
-          onChange={this.handleTimeChange}
-          autoOk={true}
-        />
+        <Row>
+          <Col xs={6}>
+            <DatePicker
+              className="picker"
+              hintText="Pick a Date"
+              value={this.state.controlledDate}
+              minDate={new Date()}
+              onChange={this.handleDateChange}
+              autoOk={true}
+            />
+          </Col>
+          <Col xs={6}>
+            <TimePicker
+              className="picker"
+              format="ampm"
+              hintText="Pick a Time"
+              value={this.state.value12}
+              onChange={this.handleTimeChange}
+              autoOk={true}
+            />
+          </Col>
+        </Row>
       </div>
     );
   }

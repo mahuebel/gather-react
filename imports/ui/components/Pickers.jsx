@@ -2,11 +2,14 @@ import React, { Component } from 'react'
 // import GooglePlacesSuggest from 'react-google-places-suggest'
 import PlacesAutocomplete from 'react-places-autocomplete'
 import { geocodeByAddress } from 'react-places-autocomplete'
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import DateTimePickers from './DateTimePickers.jsx';
  
-class PlacePicker extends Component {
+class Pickers extends Component {
   constructor(props) {
     super(props)
-    this.state = { address: 'Fort Worth, TX' }
+    this.state = { address: null }
     this.onChange = (address) => this.setState({ address })
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
   }
@@ -31,6 +34,9 @@ class PlacePicker extends Component {
 
     return (
       <form onSubmit={this.handleFormSubmit}>
+        <MuiThemeProvider>
+          <DateTimePickers />
+        </MuiThemeProvider>
         <PlacesAutocomplete
           className="place-picker"
           value={this.state.address}
@@ -43,4 +49,4 @@ class PlacePicker extends Component {
   }
 }
 
-export default PlacePicker
+export default Pickers

@@ -84,6 +84,7 @@ class Pickers extends Component {
       button: {
         marginTop: 12,
         marginRight: 12,
+        zIndex: 0,
       }
     }
 

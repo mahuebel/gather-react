@@ -72,6 +72,7 @@ input {
 
 .place-picker div, #PlacesAutocomplete__autocomplete-container {
 	font-family: 'Roboto', sans-serif;
+	z-index: 12;
 }
 
 #PlacesAutocomplete__autocomplete-container i.fa {

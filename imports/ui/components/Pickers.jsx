@@ -14,7 +14,7 @@ import moment from 'moment';
 
 import { Row, Col } from 'react-flexbox-grid';
 
-import { red500 } from 'material-ui/styles/colors.js';
+import { red500, grey400 } from 'material-ui/styles/colors.js';
 
 
  
@@ -88,27 +88,36 @@ class Pickers extends Component {
     }
 
     return (
-      <form onSubmit={this.handleFormSubmit}>
+      <Row>
+        <form className="add-gather" onSubmit={this.handleFormSubmit}>
+      <Row>
+            <Col xs={6}>
           <MuiThemeProvider>
-              <DatePicker
-                className="picker"
-                hintText="Pick a Date"
-                value={this.state.date}
-                minDate={new Date()}
-                onChange={this.handleDateChange}
-                autoOk={true}
-              />
+            <DatePicker
+              className="picker"
+              hintText="Pick a Date"
+              style={{display: "block"}}
+              value={this.state.date}
+              minDate={new Date()}
+              onChange={this.handleDateChange}
+              autoOk={true}
+            />
           </MuiThemeProvider>
+            </Col>
+            <Col xs={6}>
           <MuiThemeProvider>
-              <TimePicker
-                className="picker"
-                format="ampm"
-                hintText="Pick a Time"
-                value={this.state.time}
-                onChange={this.handleTimeChange}
-                autoOk={true}
-              />
+            <TimePicker
+              className="picker"
+              style={{display: "block"}}
+              format="ampm"
+              hintText="Pick a Time"
+              value={this.state.time}
+              onChange={this.handleTimeChange}
+              autoOk={true}
+            />
           </MuiThemeProvider>
+            </Col >
+      </Row>
 
           <PlacesAutocomplete
             className="place-picker"
@@ -118,20 +127,30 @@ class Pickers extends Component {
             autocompleteItem={AutocompleteItem}
           />
 
-        <MuiThemeProvider>
-          <RaisedButton
-            label="Create"
-            labelPosition="before"
-            primary={true}
-            style={styles.button}
-            type="submit"
-            buttonStyle={{backgroundColor: red500}}
+          <MuiThemeProvider>
+            <RaisedButton
+              label="Create"
+              labelPosition="before"
+              primary={true}
+              style={styles.button}
+              type="submit"
+              buttonStyle={{backgroundColor: red500}}
 
-          />
-        </MuiThemeProvider>
+            />
+          </MuiThemeProvider>
+          <MuiThemeProvider>
+            <RaisedButton
+              label="Cancel"
+              labelPosition="before"
+              secondary={true}
+              style={styles.button}
+              type="cancel"
+              buttonStyle={{backgroundColor: grey400}}
 
-
-      </form>
+            />
+          </MuiThemeProvider>
+        </form>
+      </Row>
     )
   }
 }

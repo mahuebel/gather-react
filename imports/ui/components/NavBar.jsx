@@ -48,6 +48,7 @@ class NavBar extends Component {
       <div>
         <AppBar
           title="Gather"
+          style={{position: 'fixed'}}
           className="nav-bar"
           iconElementRight={this.state.logged ? <Logged /> : <Login />}
         />

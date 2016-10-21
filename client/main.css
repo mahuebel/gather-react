@@ -1,6 +1,7 @@
 /* CSS declarations go here */
 body {
 	margin: 0;
+	background: #f0f0f0;
 }
 
 label {
@@ -10,10 +11,16 @@ label {
 	margin-right: 5px;
 }
 
+form.add-gather {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
 .container {
-  margin: 0 auto;
-  max-width: 1280px;
-  width: 90%;
+	padding-top: 64px;
+	margin: 0 auto;
+	max-width: 1280px;
+	/*width: 90%;*/
 }
 
 @media only screen and (min-width: 601px) {
@@ -33,12 +40,19 @@ label {
   margin-right: -0.75rem;
 }
 
-.nav-bar {
-
+.gathers-list {
+	background: white;
+	margin-top: 15px;
+	padding-left: 8px;
+	padding-right: 8px;
 }
 
-.picker  {
-	/*width: 50%;*/
+.nav-bar {
+	position: fixed;
+}
+
+div.picker div {
+	/*width: 100%;*/
 }
 
 .place-picker {
@@ -51,7 +65,7 @@ input {
 	padding-left: 5px;
 	font-size: 1rem;
 	display: block;
-	/*width: 100%; */
+	width: 100%; 
 	margin-bottom: 10px;
 
 }

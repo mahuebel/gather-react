@@ -3,6 +3,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 
 import { Gathers } from '../api/gathers/gathers.js';
 
+import {List} from 'material-ui/List';
 
 import Gather from './Gather.jsx';
 import Pickers from './components/Pickers.jsx';
@@ -43,9 +44,13 @@ class App extends Component {
 						<Pickers />
 					</header>
 
-					<ul>
-						{this.renderGathers()}
-					</ul>
+					<MuiThemeProvider>
+						<div className="gathers-list">
+							<List>	
+								{this.renderGathers()}
+							</List>
+						</div>
+					</MuiThemeProvider>
 				</div>
 			</div>
 		);

@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-
 import PlacesAutocomplete from 'react-places-autocomplete'
 import { geocodeByAddress } from 'react-places-autocomplete'
 
+import { insert } from '../../api/gathers/methods.js';
+
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-// import DateTimePickers from './DateTimePickers.jsx';
+
 import TimePicker from 'material-ui/TimePicker';
 import DatePicker from 'material-ui/DatePicker';
 
@@ -29,22 +30,42 @@ class Pickers extends Component {
   handleFormSubmit(event) {
     event.preventDefault()
     const { address, time, date } = this.state
-    console.log(event)
-    console.log(this)
+
+    this.saveGather()
+  }
+
+  saveGather() {
+    const { address, time, date } = this.state
+
     geocodeByAddress(address,  (err, { lat, lng }) => {
       if (err) {
         console.log('Oh no!', err)
       }
+
       console.log(`Coordinates for ${address}`, { lat, lng })
+
+      let dateMoment = moment(date)  
+      let timeMoment = moment(time)  
+
+      dateMoment.hour(timeMoment.hour())
+      dateMoment.minute(timeMoment.minute())
+      let start = dateMoment.toDate()
+
+      console.log('Date is:', dateMoment.format("YYYY-MM-DD HH:mm Z"))
+      console.log(`start is ${start}`)
+
+
+      insert.call({
+        name: null,
+        start: start,
+        duration: 1,
+        type: "PUBLIC",
+        place: address,
+        invited: [],
+        loc: { type: "Point", coordinates: [lat, lng] }
+      }, (error) => {console.error(error)})
+
     })
-
-    let dateMoment = moment(date)  
-    let timeMoment = moment(time)  
-
-    dateMoment.hour(timeMoment.hour())
-    dateMoment.minute(timeMoment.minute())
-
-    console.log('Date is:', dateMoment.format("YYYY-MM-DD HH:mm Z"))
   }
  
   handleTimeChange = (event, date) => {

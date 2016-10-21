@@ -1,6 +1,4 @@
-import { Meteor } from 'meteor/meteor';
-import '../imports/api/gathers.js'
+import '/imports/startup/server';
+// import { Meteor } from 'meteor/meteor';
+// import '../imports/api/gathers/gathers.js'
 
-Meteor.startup(() => {
-  // code to run on server at startup
-});

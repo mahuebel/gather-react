@@ -5,7 +5,7 @@ export default class Gather extends Component {
 	render() {
 		console.log(this.props)
 		return (
-			<li>{this.props.gather.locationName || "poop"}</li>
+			<li>{this.props.gather.displayName() || "poop"}</li>
 		);
 	}
 }

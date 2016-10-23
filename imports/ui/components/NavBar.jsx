@@ -8,6 +8,9 @@ import Toggle from 'material-ui/Toggle';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 
+import { lightBlue800 } from 'material-ui/styles/colors.js';
+
+
 class Login extends Component {
   static muiName = 'FlatButton';
 
@@ -48,7 +51,7 @@ class NavBar extends Component {
       <div>
         <AppBar
           title="Gather"
-          style={{position: 'fixed'}}
+          style={{position: 'fixed', background: lightBlue800}}
           className="nav-bar"
           iconElementRight={this.state.logged ? <Logged /> : <Login />}
         />

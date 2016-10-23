@@ -6,10 +6,17 @@ import { Gathers } from '../api/gathers/gathers.js';
 import {List} from 'material-ui/List';
 import {Tabs, Tab} from 'material-ui/Tabs';
 
+import AccountsUIWrapper from './AccountsUIWrapper.jsx';
 import Gather from './Gather.jsx';
 import Pickers from './components/Pickers.jsx';
 import NavBar from './components/NavBar.jsx';
 
+import MapsNearMe from 'material-ui/svg-icons/maps/near-me';
+import ContentInbox from 'material-ui/svg-icons/content/inbox';
+import ActionFavorite from 'material-ui/svg-icons/action/favorite';
+
+
+import { lightBlue700 } from 'material-ui/styles/colors.js';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
@@ -32,11 +39,17 @@ class App extends Component {
 
 	renderGathers() {
 		let filteredGathers = this.props.gathers;
-	    // if (this.state.selectedTab) {
-	    let conditional;
 
-	      filteredGathers = filteredGathers.filter(gather => gather.type === this.state.selectedTab);
-	    // }
+	    let tab = this.state.selectedTab ;
+
+		filteredGathers = filteredGathers.filter(gather => { 
+			if (tab === "SCHEDULE") {
+				return true
+			} else {
+				return gather.type === tab
+			}
+		});
+
 		return filteredGathers.map((gather) => (
 				<Gather key={gather._id} gather={gather} />
 			));
@@ -72,6 +85,7 @@ class App extends Component {
 		const styles = {
 			tabs: {
 				position: "fixed",
+				background: lightBlue700,
 				zIndex: 1
 			},
 			tabItem: {
@@ -80,62 +94,62 @@ class App extends Component {
 			},
 			inkBar: {
 				position: "fixed",
-				zIndex: 20,
+				zIndex: 3,
 				top: "112px",
 				bottom: "auto"
 			}
 		}
 
 		return (
-			<div>
-				<MuiThemeProvider>
+			<MuiThemeProvider>
+				<div>
 					<NavBar />
-				</MuiThemeProvider>
-
-				<div className="tabs">
-					<MuiThemeProvider>
-						<Pickers /> 
-              	</MuiThemeProvider>
-              	<MuiThemeProvider>
-						<Tabs
-					        value={this.state.selectedTab}
-					        onChange={this.onTabChange}
-					        tabItemContainerStyle={styles.tabs}
-					        inkBarStyle={styles.inkBar}
-					        contentContainerStyle={styles.tabItem}
-					    >
-							<Tab label="Private" value="PRIVATE" >
-								<div className="tab container">
-									<div className="gathers-list">
-										<List>	
-											{this.renderGathers()}
-										</List>
-									</div>
-								</div>
-							</Tab>
-							<Tab label="Public" value="PUBLIC" >	
-								<div className="tab container">
-									<div className="gathers-list">
-										<List>	
-											{this.renderGathers()}
-										</List>
-									</div>
-								</div>
-							</Tab>
-							<Tab label="Schedule" value="SCHEDULE" >	
-								<div className="tab container">   
-									<div className="gathers-list">
-										<List>	
-											{this.renderGathers()}
-										</List>
-									</div>
-								</div>
-							</Tab>
-						</Tabs>
-					</MuiThemeProvider>
+					<div className="tabs">
+						{ this.props.currentUser ?
+							<div>
+								<Pickers /> 
+								<Tabs
+							        value={this.state.selectedTab}
+							        onChange={this.onTabChange}
+							        tabItemContainerStyle={styles.tabs}
+							        inkBarStyle={styles.inkBar}
+							        contentContainerStyle={styles.tabItem}
+							    >
+									<Tab icon={<ContentInbox />} value="PRIVATE" >
+										<div className="tab container">
+											<div className="gathers-list">
+												<List>	
+													{this.renderGathers()}
+												</List>
+											</div>
+										</div>
+									</Tab>
+									<Tab icon={<MapsNearMe />} value="PUBLIC" >	
+										<div className="tab container">
+											<div className="gathers-list">
+												<List>	
+													{this.renderGathers()}
+												</List>
+											</div>
+										</div>
+									</Tab>
+									<Tab icon={<ActionFavorite />} value="SCHEDULE" >	
+										<div className="tab container">   
+											<div className="gathers-list">
+												<List>	
+													{this.renderGathers()}
+												</List>
+											</div>
+										</div>
+									</Tab>
+								</Tabs>
+								</div> : ''
+						}
+					</div>
+					<AccountsUIWrapper />
 				</div>
+			</MuiThemeProvider>
 
-			</div>
 		);
 	}
 }
@@ -146,6 +160,7 @@ App.propTypes = {
 
 export default createContainer(() => {
 	return {
-		gathers: Gathers.find({}).fetch(),
+		gathers: Gathers.find({start: {$gte: new Date()}}, {sort: {start: 1}}).fetch(),
+		currentUser: Meteor.user(),
 	};
 }, App);

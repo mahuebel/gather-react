@@ -1,7 +1,7 @@
 /* CSS declarations go here */
 body {
 	margin: 0;
-	background: #f0f0f0;
+	background: #fff;
 }
 
 label {
@@ -46,10 +46,10 @@ form.add-gather {
 }
 
 .gathers-list {
-	background: white;
+	/*background: white;*/
 	/*margin-top: 15px;*/
-	padding-left: 8px;
-	padding-right: 8px;
+	/*padding-left: 8px;*/
+	/*padding-right: 8px;*/
 }
 
 div.picker div {
@@ -79,7 +79,7 @@ input {
 	border-left-width: 0;
 	outline: none; 
 	background-color: rgba(0, 0, 0, 0); 
-	color: rgba(0, 0, 0, 0.520588); 
+	color: rgba(0, 0, 0, 0.660588); 
 	cursor: initial; 
 	font-size: 16px; 
 	line-height: 24px;  
@@ -104,7 +104,18 @@ input {
 	z-index: 16;
 }
 
+form.add-gather label {
+	display: none;
+}
+
 #PlacesAutocomplete__autocomplete-container i.fa {
 
 	 margin-right: 5px;
+}
+
+form.add-gather div.type-select {
+	padding-left: 0;
+	padding-right: 0;
+	width: 100%;
+	margin-top: 5px;
 }

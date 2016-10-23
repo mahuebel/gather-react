@@ -6,7 +6,10 @@ import { insert } from '../../api/gathers/methods.js';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import Dialog from 'material-ui/Dialog';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import FlatButton from 'material-ui/FlatButton';
 import TimePicker from 'material-ui/TimePicker';
 import DatePicker from 'material-ui/DatePicker';
 
@@ -21,17 +24,53 @@ import { red500, grey400 } from 'material-ui/styles/colors.js';
 class Pickers extends Component {
   constructor(props) {
     super(props)
-    this.state = { address: null, time: null, date: null }
-    this.onChange = (address) => this.setState({ address })
+    this.state = { address: "", time: null, date: null, open: false, formReady: false }
+    // this.onChange = (address) => 
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
-
+    this.handlePlaceChange = this.handlePlaceChange.bind(this)
+    this.handleClose = this.handleClose.bind(this)
+    this.handleOpen = this.handleOpen.bind(this)
   }
   
   handleFormSubmit(event) {
     event.preventDefault()
-    const { address, time, date } = this.state
+    const { formReady } = this.state
 
-    this.saveGather()
+    if (formReady){
+      this.saveGather()
+    }
+  }
+
+  handleOpen = () => {
+    this.setState({open: true});
+  };
+
+  handleClose = () => {
+    this.setState({open: false});
+  };
+
+  handleTimeChange = (event, time) => {
+    const { address, date } = this.state
+    this.setState({
+      time: time,
+      formReady: (address && time && date)
+    });
+  };
+
+  handleDateChange = (event, date) => {
+    const { address, time } = this.state
+    this.setState({
+      date: date,
+      formReady: (address && time && date)
+    });
+  };
+
+  handlePlaceChange = (address) => {
+    const { time, date } = this.state
+    this.setState({ 
+      address,
+      formReady: (address && time && date) 
+    })
   }
 
   saveGather() {
@@ -40,6 +79,7 @@ class Pickers extends Component {
     geocodeByAddress(address,  (err, { lat, lng }) => {
       if (err) {
         console.log('Oh no!', err)
+        this.handleClose
       }
 
       console.log(`Coordinates for ${address}`, { lat, lng })
@@ -63,95 +103,108 @@ class Pickers extends Component {
         place: address,
         invited: [],
         loc: { type: "Point", coordinates: [lat, lng] }
-      }, (error) => {console.error(error)})
+      }, (error) => {
+        if (error) {
+          console.error(error)
+          this.handleClose()
+        }
+
+      })
+
+        this.handleClose()
 
     })
   }
- 
-  handleTimeChange = (event, date) => {
-    this.setState({time: date});
-  };
-
-  handleDateChange = (event, date) => {
-    this.setState({
-      date: date,
-    });
-  };
 
   render() {
-    const AutocompleteItem = ({ suggestion }) => (<div><i className="fa fa-map-marker"/>{suggestion}</div>)
     const styles = {
       button: {
         marginTop: 12,
         marginRight: 12,
         zIndex: 0,
+      },
+      fab: {
+        position: "fixed",
+        bottom: "45px",
+        right: "24px",
+        zIndex: 15,
       }
     }
 
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onTouchTap={this.handleClose}
+      />,
+      <RaisedButton
+        label="Create"
+        labelPosition="before"
+        primary={true}
+        keyboardFocused={true}
+        disabled={!(this.state.formReady)}
+        style={styles.button}
+        onTouchTap={this.handleFormSubmit}
+        buttonStyle={{backgroundColor: red500}}
+      />,
+      ];
+
+    const AutocompleteItem = ({ suggestion }) => (<div><i className="fa fa-map-marker"/>{suggestion}</div>)
+    
+
     return (
-      <Row>
-        <form className="add-gather" onSubmit={this.handleFormSubmit}>
-      <Row>
-            <Col xs={6}>
-          <MuiThemeProvider>
-            <DatePicker
-              className="picker"
-              hintText="Pick a Date"
-              style={{display: "block"}}
-              value={this.state.date}
-              minDate={new Date()}
-              onChange={this.handleDateChange}
-              autoOk={true}
-            />
-          </MuiThemeProvider>
-            </Col>
-            <Col xs={6}>
-          <MuiThemeProvider>
-            <TimePicker
-              className="picker"
-              style={{display: "block"}}
-              format="ampm"
-              hintText="Pick a Time"
-              value={this.state.time}
-              onChange={this.handleTimeChange}
-              autoOk={true}
-            />
-          </MuiThemeProvider>
-            </Col >
-      </Row>
+        <div>
+          <FloatingActionButton 
+            style={styles.fab}
+            onTouchTap={this.handleOpen}
+          >
+            <ContentAdd />
+          </FloatingActionButton>
+          <Dialog
+            title="New Gather"
+            actions={actions}
+            modal={false}
+            open={this.state.open}
+            onRequestClose={this.handleClose}
+          >
+            <form className="add-gather" onSubmit={this.handleFormSubmit}>
+              <MuiThemeProvider>
+                <DatePicker
+                  className="picker"
+                  hintText="Pick a Date"
+                  style={{display: "block"}}
+                  firstDayOfWeek={0}
+                  fullWidth={true}
+                  value={this.state.date}
+                  minDate={new Date()}
+                  onChange={this.handleDateChange}
+                  autoOk={true}
+                />
+              </MuiThemeProvider>
+              <MuiThemeProvider>
+                <TimePicker
+                  className="picker"
+                  style={{display: "block"}}
+                  fullWidth={true}
+                  format="ampm"
+                  hintText="Pick a Time"
+                  value={this.state.time}
+                  onChange={this.handleTimeChange}
+                  autoOk={true}
+                />
+              </MuiThemeProvider>
 
-          <PlacesAutocomplete
-            className="place-picker"
-            value={this.state.address}
-            onChange={this.onChange}
-            placeholder="Location"
-            autocompleteItem={AutocompleteItem}
-          />
+              <PlacesAutocomplete
+                className="place-picker"
+                value={this.state.address}
+                onChange={this.handlePlaceChange}
+                placeholder="Location"
+                autocompleteItem={AutocompleteItem}
+              />
 
-          <MuiThemeProvider>
-            <RaisedButton
-              label="Create"
-              labelPosition="before"
-              primary={true}
-              style={styles.button}
-              type="submit"
-              buttonStyle={{backgroundColor: red500}}
-
-            />
-          </MuiThemeProvider>
-          <MuiThemeProvider>
-            <RaisedButton
-              label="Cancel"
-              labelPosition="before"
-              secondary={true}
-              style={styles.button}
-              type="cancel"
-              buttonStyle={{backgroundColor: grey400}}
-
-            />
-          </MuiThemeProvider>
-        </form>
-      </Row>
+            </form>
+          </Dialog>
+        </div>
     )
   }
 }

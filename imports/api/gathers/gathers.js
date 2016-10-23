@@ -1,22 +1,46 @@
 import { Mongo } from 'meteor/mongo';
 
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import BaseCollection from '../base-collection.js';
 
-class GathersCollection extends Mongo.Collection {
+
+class GathersCollection extends BaseCollection {
 	insert(doc, callback) {
 		const ourDoc = doc;
 		ourDoc.createdAt = ourDoc.createdAt || new Date();
 		ourDoc.updatedAt =  new Date();
 		const result = super.insert(ourDoc, callback);
+
+		/*
+		this is where we send invites/push notifications!
+		*/
+
+
 		return result;
 	}
 	update(selector, modifier) {
 		modifer.$set.updatedAt = new Date()
 		const result = super.update(selector, modifier);
+
+		/*
+		this is where we send invites/push notifications
+		with the updated info
+		*/
+
+
 		return result;
 	}
 	remove(selector) {
+		// let gather = Gathers.findOne(selector)
+
 		const result = super.remove(selector);
+
+		/*
+		this is where we send invites/push notifications
+		to let everyone know the gathering is off
+		*/
+
+
 		return result;
 	}
 

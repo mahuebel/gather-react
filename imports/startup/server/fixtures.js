@@ -22,7 +22,7 @@ Meteor.startup(() => {
         name:     "Cowboys Game",
         start:    new Date(timestamp+300),
         duration: 1,
-        type:     "GROUP",
+        type:     "PRIVATE",
         place:    "ur Butt",
         invited:  [],
         loc:      {type: "Point", coordinates: [32.896164, -97.275795]},

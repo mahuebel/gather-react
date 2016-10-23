@@ -16,8 +16,13 @@ form.add-gather {
 	padding-right: 20px;
 }
 
-.container {
+.tabs {
 	padding-top: 64px;
+	z-index: 2;
+}
+
+.container {
+	/*padding-top: px;*/
 	margin: 0 auto;
 	max-width: 1280px;
 	/*width: 90%;*/
@@ -42,13 +47,9 @@ form.add-gather {
 
 .gathers-list {
 	background: white;
-	margin-top: 15px;
+	/*margin-top: 15px;*/
 	padding-left: 8px;
 	padding-right: 8px;
-}
-
-.nav-bar {
-	position: fixed;
 }
 
 div.picker div {
@@ -60,19 +61,47 @@ div.picker div {
 }
 
 input {
-	padding-top: 10px;
+	/*padding-top: 10px;
 	padding-bottom: 10px;
 	padding-left: 5px;
 	font-size: 1rem;
 	display: block;
 	width: 100%; 
-	margin-bottom: 10px;
+	margin-bottom: 10px;*/
+
+	padding: 0px; 
+	position: relative; 
+	width: 100%; 
+	border: solid rgba(0, 0, 0, 0.120588); 
+	border-bottom-width: 1px;
+	border-top-width: 0;
+	border-right-width: 0;
+	border-left-width: 0;
+	outline: none; 
+	background-color: rgba(0, 0, 0, 0); 
+	color: rgba(0, 0, 0, 0.520588); 
+	cursor: initial; 
+	font-size: 16px; 
+	line-height: 24px;  
+	min-height: 48px; 
+	display: inline-block; 
+	font-family: Roboto, sans-serif; 
+	transition: height 200ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+
+	font-style: inherit; 
+	font-variant: inherit; 
+	font-weight: 300;
+	letter-spacing: .025em; 
+	font-stretch: inherit; 
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0); 
+	height: 100%; 
+	-webkit-appearance: textfield;
 
 }
 
 .place-picker div, #PlacesAutocomplete__autocomplete-container {
 	font-family: 'Roboto', sans-serif;
-	z-index: 12;
+	z-index: 16;
 }
 
 #PlacesAutocomplete__autocomplete-container i.fa {

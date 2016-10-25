@@ -35,6 +35,13 @@ InviteLists.schema = new SimpleSchema({
 
 InviteLists.attachSchema(InviteLists.schema)
 
+InviteLists.publicFields = {
+  creatorId: 1,
+  name: 1,
+  userIds: 1,
+  updatedAt: 1,
+};
+
 InviteLists.helpers({
 	suggestedUsers() {
 		let users = []

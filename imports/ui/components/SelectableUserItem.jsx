@@ -5,11 +5,12 @@ import { Router, Link } from 'react-router'
 
 import Avatar from 'material-ui/Avatar';
 import {ListItem} from 'material-ui/List';
+import Checkbox from 'material-ui/Checkbox';
 import Divider from 'material-ui/Divider';
 
 import SocialPerson from 'material-ui/svg-icons/social/person';
 
-export default class UserItem extends Component {
+export default class SelectableUserItem extends Component {
 	constructor(props) {
 		super(props)
 	}
@@ -20,12 +21,15 @@ export default class UserItem extends Component {
 		return (
 			<div>
 				<ListItem
-					leftIcon={<Avatar src={picUrl} />}
+					leftCheckbox={ <Checkbox value={'user-'+user._id} /> }
 					primaryText={uProfile ? uProfile.name : user.username}
-					rightIcon={ <SocialPerson />}
+					rightIcon={ <Avatar src={picUrl} />}
+					onTouchTap={this.props.onSelect}
+
 				/>
 				<Divider />
 			</div>
 		);
 	}
 }
+

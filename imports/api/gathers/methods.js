@@ -112,6 +112,37 @@ export const inviteOne = new ValidatedMethod({
   } 
 })
 
+export const inviteMany = new ValidatedMethod({
+  name: 'gathers.inviteMany',
+  validate: new SimpleSchema({
+    gatherId:  { type: String },
+    inviteeIds:{ type: [String] },
+    userId:    { type: String }
+  }).validator(),
+  run({ gatherId, inviteeIds, userId }) {
+    const gather = Gathers.findOne(gatherId);
+
+    let invited = gather.invited || [] 
+
+    if (gather.type === "PRIVATE" && !(invited.indexOf(userId) > -1) && gather.creatorId !== userId) {
+      throw new Meteor.Error('api.gathers.inviteMany.accessDenied',
+      'Cannot invite people to a private gathering you have not been invited to');
+    }
+
+    for(var i=0; i<inviteeIds.length; i++) {
+      let invitee = inviteeIds[i]
+      if (invited.indexOf(invitee) === -1){
+        invited.push(invitee)
+      }
+    }
+
+
+    Gathers.update(gatherId, { $set: {
+      invited: invited,
+    } });
+  } 
+})
+
 export const inviteList = new ValidatedMethod({
   name: 'gathers.inviteList',
   validate: new SimpleSchema({
@@ -168,6 +199,7 @@ const GATHERS_METHODS = _.pluck([
   insert,
   toggleAttendee,
   inviteOne,
+  inviteMany,
   inviteList,
   remove,
 ], 'name');

@@ -8,6 +8,7 @@ import {Tabs, Tab} from 'material-ui/Tabs';
 
 import Gather from '../components/Gather.jsx';
 import Pickers from '../components/Pickers.jsx';
+import Loading from '../components/Loading.jsx'; 
 import NavBar from '../components/NavBar.jsx';
 import DrawerMenu from '../components/DrawerMenu.jsx';
 
@@ -117,6 +118,10 @@ export default class App extends Component {
 				bottom: "auto"
 			}
 		}
+
+		let { loading } = this.props
+
+		if (loading) { return <Loading /> }
 
 		return (
 			<MuiThemeProvider>

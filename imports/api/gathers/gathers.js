@@ -96,8 +96,16 @@ Gathers.helpers({
 			return Meteor.users.find({_id: {$in: this.attendees}})
 	},
 	invitedUsers() {
-		if (this.invited)
-			return Meteor.users.find({_id: {$in: this.invited}})
+		if (this.invited && this.attendees){
+			let filteredInvited = this.invited
+			let atnds = this.attendees
+
+			filteredInvited = filteredInvited.filter(user => { 
+				return !(atnds.indexOf(user) > -1)
+			});
+
+			return Meteor.users.find({_id: {$in: filteredInvited}})
+		}
 	},
 	creator() {
 		return Meteor.users.findOne(this.creatorId)

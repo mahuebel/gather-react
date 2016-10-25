@@ -2,6 +2,8 @@
 body {
 	margin: 0;
 	background: #fff;
+	font-family: 'Roboto', sans-serif;
+
 }
 
 label {
@@ -19,6 +21,10 @@ form.add-gather {
 .tabs {
 	padding-top: 64px;
 	z-index: 2;
+}
+
+.center-align {
+	text-align: center;
 }
 
 .container {
@@ -45,6 +51,7 @@ form.add-gather {
   margin-right: -0.75rem;
 }
 
+
 .gathers-list {
 	/*background: white;*/
 	/*margin-top: 15px;*/
@@ -52,9 +59,23 @@ form.add-gather {
 	/*padding-right: 8px;*/
 }
 
+div.gather-show {
+
+}
+
 
 .place-picker {
 
+}
+
+img.loading-app {
+	height: 200px;
+	width: auto;
+	position: fixed;
+  	top: 50%;
+  	left: 50%;
+ 	margin-top: -100px;
+  	margin-left: -100px;
 }
 
 div.place-picker input {

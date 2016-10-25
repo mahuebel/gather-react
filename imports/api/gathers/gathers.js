@@ -12,6 +12,9 @@ class GathersCollection extends BaseCollection {
 		ourDoc.createdAt = ourDoc.createdAt || new Date();
 		ourDoc.updatedAt =  new Date();
 		ourDoc.creatorId = Meteor.userId()
+		ourDoc.attendees = doc.attendees || []
+		ourDoc.invited.push(Meteor.userId())
+		ourDoc.attendees.push(Meteor.userId())
 		const result = super.insert(ourDoc, callback);
 
 		/*
@@ -22,7 +25,6 @@ class GathersCollection extends BaseCollection {
 		return result;
 	}
 	update(selector, modifier) {
-		modifer.$set.updatedAt = new Date()
 		const result = super.update(selector, modifier);
 
 		/*
@@ -72,9 +74,22 @@ Gathers.schema = new SimpleSchema({
 
 Gathers.attachSchema(Gathers.schema)
 
+Gathers.publicFields = {
+  creatorId: 1,
+  name: 1,
+  start: 1,
+  duration: 1,
+  type: 1,
+  place: 1,
+  invited: 1,
+  attendees: 1,
+  loc: 1,
+  updatedAt: 1,
+};
+
 Gathers.helpers({
 	displayName() {
-		return this.name ? this.name : this.place 
+		return this.name ? this.name : this.place.split(",")[0] 
 	},
 	attendingUsers() {
 		if (this.attendees)

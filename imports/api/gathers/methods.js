@@ -5,25 +5,28 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 
 import { Gathers, LocationSchema } from './gathers.js';
+import { InviteLists } from '../invite-lists/invite-lists.js';
 
 export const insert = new ValidatedMethod({
   name: 'gathers.insert',
   validate: new SimpleSchema({
     name:     {type: String, max: 40, optional: true},
-	start:    {type: Date},
-	duration: {type: Number, decimal: true},
-	type: 	  {type: String},
-	place: 	  {type: String},
-	invited:  {type: [String], optional: true},
-	loc:  	  {type: LocationSchema},
+  	start:    {type: Date},
+  	duration: {type: Number, decimal: true},
+  	type: 	  {type: String},
+  	place: 	  {type: String},
+    invited:  {type: [String], optional: true},
+  	attendees:  {type: [String], optional: true},
+  	loc:  	  {type: LocationSchema},
   }).validator(),
-  run({ name, start, duration, type, place, invited, loc }) {
+  run({ name, start, duration, type, place, invited, attendees, loc }) {
 
     // if (list.isPrivate() && list.userId !== this.userId) {
     //   throw new Meteor.Error('api.gathers.insert.accessDenied',
     //     'Cannot add gathers to a private list that is not yours');
     // }
     invited = invited?invited:[]
+    attendees = attendees?attendees:[]
     // name    = name?name:place
 
 
@@ -34,6 +37,7 @@ export const insert = new ValidatedMethod({
       type,
       place,
       invited,
+      attendees,
       loc,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -43,54 +47,104 @@ export const insert = new ValidatedMethod({
   },
 });
 
-/*
-export const setCheckedStatus = new ValidatedMethod({
-  name: 'gathers.makeChecked',
+export const toggleAttendee = new ValidatedMethod({
+  name: 'gathers.toggleAttendee',
   validate: new SimpleSchema({
-    todoId: { type: String },
-    newCheckedStatus: { type: Boolean },
+    gatherId: { type: String },
+    attendeeId: { type: String },
   }).validator(),
-  run({ todoId, newCheckedStatus }) {
-    const todo = Gathers.findOne(todoId);
+  run({ gatherId, attendeeId }) {
+    const gather = Gathers.findOne(gatherId);
+    let invited = gather.invited || [] 
 
-    if (todo.checked === newCheckedStatus) {
-      // The status is already what we want, let's not do any extra work
-      return;
+    if (gather.type === "PRIVATE" && !(invited.indexOf(attendeeId) > -1)) {
+      throw new Meteor.Error('api.gathers.toggleAttendee.accessDenied',
+      'Cannot attend a private gathering you have not been invited to');
     }
 
-    if (!todo.editableBy(this.userId)) {
-      throw new Meteor.Error('api.gathers.setCheckedStatus.accessDenied',
-        'Cannot edit checked status in a private list that is not yours');
+    let attendees = gather.attendees || []
+
+    let ind = attendees.indexOf(attendeeId) 
+
+    if (ind > -1) {
+      while(ind > -1) {
+        attendees.splice(ind)
+        ind = attendees.indexOf(attendeeId)
+
+      }
+    } else {
+      attendees.push(attendeeId)
     }
 
-    Gathers.update(todoId, { $set: {
-      checked: newCheckedStatus,
+    Gathers.update(gatherId, { $set: {
+      attendees
     } });
   },
 });
 
-export const updateText = new ValidatedMethod({
-  name: 'gathers.updateText',
+export const inviteOne = new ValidatedMethod({
+  name: 'gathers.inviteOne',
   validate: new SimpleSchema({
-    todoId: { type: String },
-    newText: { type: String },
+    gatherId: { type: String },
+    inviteeId:{ type: String },
+    userId:   { type: String }
   }).validator(),
-  run({ todoId, newText }) {
-    // This is complex auth stuff - perhaps denormalizing a userId onto gathers
-    // would be correct here?
-    const todo = Gathers.findOne(todoId);
+  run({ gatherId, inviteeId, userId }) {
+    const gather = Gathers.findOne(gatherId);
 
-    if (!todo.editableBy(this.userId)) {
-      throw new Meteor.Error('api.gathers.updateText.accessDenied',
-        'Cannot edit gathers in a private list that is not yours');
+    let invited = gather.invited || [] 
+
+    if (gather.type === "PRIVATE" && !(invited.indexOf(userId) > -1) && gather.creatorId !== userId) {
+      throw new Meteor.Error('api.gathers.inviteOne.accessDenied',
+      'Cannot invite people to a private gathering you have not been invited to');
     }
 
-    Gathers.update(todoId, {
-      $set: { text: newText },
-    });
-  },
-});
-*/
+    if (invited.indexOf(inviteeId) > -1) {
+      throw new Meteor.Error('api.gathers.inviteOne.accessDenied',
+      'They are already invited');
+    } 
+
+    invited.push(inviteeId)
+
+    Gathers.update(gatherId, { $set: {
+      invited: invited,
+    } });
+  } 
+})
+
+export const inviteList = new ValidatedMethod({
+  name: 'gathers.inviteList',
+  validate: new SimpleSchema({
+    gatherId:    { type: String },
+    inviteListId:{ type: String },
+    userId:      { type: String }
+  }).validator(),
+  run({ gatherId, inviteListId, userId }) {
+    const gather = Gathers.findOne(gatherId);
+    let inviteList = InviteLists.findOne(inviteListId)
+
+    let invited = gather.invited || [] 
+
+    if (gather.type === "PRIVATE" && !(invited.indexOf(userId) > -1) && gather.creatorId !== userId) {
+      throw new Meteor.Error('api.gathers.inviteOne.accessDenied',
+      'Cannot invite people to a private gathering you have not been invited to');
+    }
+
+    
+
+    for(var i=0; i<inviteList.userIds; i++) {
+      if (!(invited.indexOf(inviteeId) > -1)) {
+        invited.push(inviteeId)
+      } 
+    }
+
+
+    Gathers.update(gatherId, { $set: {
+      invited: invited,
+    } });
+  } 
+})
+
 
 export const remove = new ValidatedMethod({
   name: 'gathers.remove',
@@ -112,8 +166,9 @@ export const remove = new ValidatedMethod({
 // Get list of all method names on Gathers
 const GATHERS_METHODS = _.pluck([
   insert,
-  // setCheckedStatus,
-  // updateText,
+  toggleAttendee,
+  inviteOne,
+  inviteList,
   remove,
 ], 'name');
 

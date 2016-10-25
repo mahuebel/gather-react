@@ -120,6 +120,7 @@ class Pickers extends Component {
         type: gType,
         place: address,
         invited: [],
+        attendees: [],
         loc: { type: "Point", coordinates: [lat, lng] }
       }, (error) => {
         if (error) {

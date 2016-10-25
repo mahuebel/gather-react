@@ -1,12 +1,18 @@
 import React, {Component} from 'react';
+
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import Toggle from 'material-ui/Toggle';
+import Drawer from 'material-ui/Drawer';
+
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
+
+
 
 import { lightBlue800 } from 'material-ui/styles/colors.js';
 
@@ -30,7 +36,7 @@ const Logged = (props) => (
     targetOrigin={{horizontal: 'right', vertical: 'top'}}
     anchorOrigin={{horizontal: 'right', vertical: 'top'}}
   >
-    <MenuItem primaryText="Sign out" />
+    <MenuItem primaryText="Sign out" onTouchTap={props.onLogOut} />
   </IconMenu>
 );
 
@@ -42,7 +48,8 @@ Logged.muiName = 'IconMenu';
  */
 class NavBar extends Component {
   state = {
-    logged: true,
+    // logged: (this.props.currentUser != undefined),
+    logged: this.props.isLoggedIn
   };
 
 
@@ -53,7 +60,8 @@ class NavBar extends Component {
           title="Gather"
           style={{position: 'fixed', background: lightBlue800}}
           className="nav-bar"
-          iconElementRight={this.state.logged ? <Logged /> : <Login />}
+          onLeftIconButtonTouchTap={this.props.handleDrawerToggle}
+          iconElementRight={this.props.isLoggedIn ? <Logged {...this.props} /> : <Login />}
         />
       </div>
     );

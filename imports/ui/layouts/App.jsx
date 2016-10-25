@@ -1,20 +1,19 @@
 import React, { Component, PropTypes } from 'react';
-import { createContainer } from 'meteor/react-meteor-data';
 
-import { Gathers } from '../api/gathers/gathers.js';
+import { Gathers } from '../../api/gathers/gathers.js';
+import { Session } from 'meteor/session';
 
 import {List} from 'material-ui/List';
 import {Tabs, Tab} from 'material-ui/Tabs';
 
-import AccountsUIWrapper from './AccountsUIWrapper.jsx';
-import Gather from './Gather.jsx';
-import Pickers from './components/Pickers.jsx';
-import NavBar from './components/NavBar.jsx';
+import Gather from '../components/Gather.jsx';
+import Pickers from '../components/Pickers.jsx';
+import NavBar from '../components/NavBar.jsx';
+import DrawerMenu from '../components/DrawerMenu.jsx';
 
 import MapsNearMe from 'material-ui/svg-icons/maps/near-me';
 import ContentInbox from 'material-ui/svg-icons/content/inbox';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
-
 
 import { lightBlue700 } from 'material-ui/styles/colors.js';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -28,37 +27,56 @@ const Place = ({prediction, onClick}) => {
     )
 }
  
-class App extends Component {
+export default class App extends Component {
 	constructor(props) {
 		super(props);
-
 		this.state = {
 			selectedTab: "PRIVATE",
+			menuOpen: false
 		};
 	}
 
 	renderGathers() {
+		// console.log(this.props)
+
 		let filteredGathers = this.props.gathers;
 
 	    let tab = this.state.selectedTab ;
 
 		filteredGathers = filteredGathers.filter(gather => { 
+			let attendees = gather.attendees || []
+			let invited   = gather.invited || []
+
+			let isAttending = (attendees.indexOf(this.props.currentUser._id) > -1)
+			let isInvited = (invited.indexOf(this.props.currentUser._id) > -1)
+
 			if (tab === "SCHEDULE") {
-				return true
+				return isAttending
 			} else {
-				return gather.type === tab
+				if (tab === "PRIVATE") {
+					return (gather.type === tab && !isAttending && isInvited)
+				} else { 
+					return (gather.type === tab && !isAttending)
+				}
 			}
 		});
 
 		return filteredGathers.map((gather) => (
-				<Gather key={gather._id} gather={gather} />
+				<Gather key={gather._id} gather={gather} currentUser={this.props.currentUser} />
 			));
 	}
 
-	onClickPlace(e) {
-		console.log("you clicked this place: ", this)
-		console.log("you clicked this place: ", e)
+	isLoggedIn() {
+		return this.props.currentUser != undefined
 	}
+
+	handleLogout = () => {Meteor.logout()}
+
+	handleDrawerToggle = () => {
+		Session.set('menuOpen', !Session.get('menuOpen'));
+	}
+
+  	handleDrawerClose = () => this.setState({drawerOpen: false});
 
 	onTabChange = (value) => {
 
@@ -103,7 +121,16 @@ class App extends Component {
 		return (
 			<MuiThemeProvider>
 				<div>
-					<NavBar />
+					<NavBar 
+						currentUser={this.props.currentUser} 
+						handleDrawerToggle={this.handleDrawerToggle} 
+						isLoggedIn={this.isLoggedIn}
+						onLogOut={this.handleLogout} 
+					/>
+					<DrawerMenu 
+					onClose={this.handleDrawerClose}
+					onToggle={this.handleDrawerToggle} 
+					/>
 					<div className="tabs">
 						{ this.props.currentUser ?
 							<div>
@@ -113,8 +140,8 @@ class App extends Component {
 							        onChange={this.onTabChange}
 							        tabItemContainerStyle={styles.tabs}
 							        inkBarStyle={styles.inkBar}
-							        contentContainerStyle={styles.tabItem}
-							    >
+							        contentContainerStyle={styles.tabItem}>
+
 									<Tab icon={<ContentInbox />} value="PRIVATE" >
 										<div className="tab container">
 											<div className="gathers-list">
@@ -146,7 +173,6 @@ class App extends Component {
 								</div> : ''
 						}
 					</div>
-					<AccountsUIWrapper />
 				</div>
 			</MuiThemeProvider>
 
@@ -155,12 +181,9 @@ class App extends Component {
 }
 
 App.propTypes = {
-	gathers: PropTypes.array.isRequired,
+	gathers: React.PropTypes.array.isRequired,
 };
 
-export default createContainer(() => {
-	return {
-		gathers: Gathers.find({start: {$gte: new Date()}}, {sort: {start: 1}}).fetch(),
-		currentUser: Meteor.user(),
-	};
-}, App);
+App.contextTypes = {
+  router: React.PropTypes.object,
+};

@@ -33,11 +33,14 @@ mdg:validation-error
 
 
 #accounts
-
+accounts-ui
+accounts-password
+accounts-facebook
 
 #to be removed
-autopublish@1.0.7
-insecure@1.0.7
+#autopublish@1.0.7
+#insecure@1.0.7
+
 blaze-html-templates@1.0.4
 reactive-var@1.0.10
 
@@ -54,6 +57,4 @@ standard-minifier-js@1.2.0_1
 
 #testing
 shell-server@0.2.1 
-accounts-ui
-accounts-password
-accounts-facebook
+

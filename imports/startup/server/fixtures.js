@@ -3,11 +3,13 @@ import { Gathers } from '../../api/gathers/gathers.js';
 
 // if the database is empty on server start, create some sample data.
 Meteor.startup(() => {
+  /*
   if (Gathers.find().count() === 0) {
     let timestamp = (new Date()).getTime();
 
     const data = [
       {
+        creatorId
         name:     "Rally Day",
         start:    new Date(timestamp+100),
         duration: 1,
@@ -47,4 +49,5 @@ Meteor.startup(() => {
       const gatherId = Gathers.insert(gather);
     });
   }
+  */
 });

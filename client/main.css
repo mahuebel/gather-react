@@ -119,3 +119,10 @@ form.add-gather div.type-select {
 	width: 100%;
 	margin-top: 5px;
 }
+
+
+
+div.accounts-dialog {
+	/*text-align: center;*/
+	z-index: 25;
+}

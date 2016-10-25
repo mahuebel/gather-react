@@ -9,7 +9,7 @@ export default class BaseCollection extends Mongo.Collection {
 		return result;
 	}
 	update(selector, modifier) {
-		modifer.$set.updatedAt = new Date()
+		modifier.$set.updatedAt = new Date()
 		const result = super.update(selector, modifier);
 		return result;
 	}

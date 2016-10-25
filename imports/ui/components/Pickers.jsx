@@ -15,6 +15,7 @@ import TimePicker from 'material-ui/TimePicker';
 import DatePicker from 'material-ui/DatePicker';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import TextField from 'material-ui/TextField';
 
 import moment from 'moment';
 
@@ -27,7 +28,7 @@ import { red500, grey400, lightBlueA400 } from 'material-ui/styles/colors.js';
 class Pickers extends Component {
   constructor(props) {
     super(props)
-    this.state = { address: "", time: null, date: null, open: false, type: 1, formReady: false }
+    this.state = { address: "", time: new Date(), date: new Date(), open: false, type: 1, formReady: false, name: "" }
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
     this.handlePlaceChange = this.handlePlaceChange.bind(this)
     this.handleClose = this.handleClose.bind(this)
@@ -54,6 +55,12 @@ class Pickers extends Component {
     ReactDOM.findDOMNode(this.refs.timeInput).value = '';
     ReactDOM.findDOMNode(this.refs.placeInput).value = '';
     this.setState({open: false});
+  };
+
+  handleNameChange = (event, name) => {
+    this.setState({
+      name: name,
+    });
   };
 
   handleTimeChange = (event, time) => {
@@ -85,7 +92,7 @@ class Pickers extends Component {
   }
 
   saveGather() {
-    const { address, time, date, type } = this.state
+    const { address, time, date, type, name } = this.state
 
     geocodeByAddress(address,  (err, { lat, lng }) => {
       if (err) {
@@ -114,7 +121,7 @@ class Pickers extends Component {
       }
 
       insert.call({
-        name: null,
+        name: name,
         start: start,
         duration: 1,
         type: gType,
@@ -184,6 +191,7 @@ class Pickers extends Component {
           </FloatingActionButton>
           <Dialog
             actions={actions}
+            repositionOnUpdate={false}
             modal={false}
             open={this.state.open}
             contentStyle={styles.dialog}
@@ -192,14 +200,15 @@ class Pickers extends Component {
           >
             <form className="add-gather" onSubmit={this.handleFormSubmit}>
 
-              <PlacesAutocomplete
-                className="place-picker"
-                ref="placeInput"
-                value={this.state.address}
-                onChange={this.handlePlaceChange}
-                placeholder="Location"
-                autocompleteItem={AutocompleteItem}
-              />
+              <div className="place-picker">
+                <PlacesAutocomplete
+                  ref="placeInput"
+                  value={this.state.address}
+                  onChange={this.handlePlaceChange}
+                  placeholder="Address or place name"
+                  autocompleteItem={AutocompleteItem}
+                />
+              </div>
 
               <SelectField 
                 value={this.state.type} 
@@ -215,7 +224,7 @@ class Pickers extends Component {
               <div>
                 <DatePicker
                   className="picker"
-                  hintText="Pick a Date"
+                  hintText="Pick a Day"
                   style={{display: "block"}}
                   firstDayOfWeek={0}
                   fullWidth={true}
@@ -236,6 +245,15 @@ class Pickers extends Component {
                   value={this.state.time}
                   onChange={this.handleTimeChange}
                   autoOk={true}
+                />
+
+                <TextField
+                  className="picker"
+                  style={{display: "block", width: "100%"}}
+                  id="text-field-controlled"
+                  hintText="Title (optional)"
+                  value={this.state.name}
+                  onChange={this.handleNameChange}
                 />
               </div>
             </form>

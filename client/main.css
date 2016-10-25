@@ -52,15 +52,12 @@ form.add-gather {
 	/*padding-right: 8px;*/
 }
 
-div.picker div {
-	/*width: 100%;*/
-}
 
 .place-picker {
-	margin-top: 20px;
+
 }
 
-input {
+div.place-picker input {
 	/*padding-top: 10px;
 	padding-bottom: 10px;
 	padding-left: 5px;

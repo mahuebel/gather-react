@@ -9,6 +9,9 @@ App.info({
   version: '0.0.1',
 });
 
+App.accessRule("*");
+App.accessRule("blob:*");
+
 App.icons({
   // iOS
   'iphone': 'resources/icons/icon-60x60.png',

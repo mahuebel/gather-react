@@ -6,7 +6,7 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 
-import AccountsUIWrapper from '../AccountsUIWrapper.jsx';
+
 
 
 import ActionAllOut from 'material-ui/svg-icons/action/all-out';
@@ -38,7 +38,7 @@ export default class DrawerMenu extends Component {
 					<Divider />
 					<MenuItem onTouchTap={this.props.onClose} leftIcon={ <ActionAllOut /> }>Radius</MenuItem>
 					<Divider />
-					<MenuItem rightIcon={ <SocialPerson /> }><AccountsUIWrapper /></MenuItem>
+					<MenuItem rightIcon={ <SocialPerson /> }></MenuItem>
 		        </Drawer>
 			</div>
 		);

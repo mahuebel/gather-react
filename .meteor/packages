@@ -21,6 +21,8 @@ jquery@1.11.9
 #ui
 react-meteor-data
 fortawesome:fontawesome
+#materialize:materialize
+#fourseven:scss
 
 
 #data
@@ -34,7 +36,9 @@ mdg:validation-error
 
 
 #accounts
-accounts-ui
+#accounts-ui   #standard accounts lib, to be replaced by Material variety
+#std:accounts-material
+zetoff:accounts-material-ui
 accounts-password
 accounts-facebook
 

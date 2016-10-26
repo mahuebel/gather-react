@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import Tracker from 'tracker-component';
+import { Meteor } from 'meteor/meteor';
 
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
@@ -22,7 +24,7 @@ class Login extends Component {
 
   render() {
     return (
-      <FlatButton {...this.props} label="Login" />
+      <FlatButton label="Login" onTouchTap={this.props.onLogOut} />
     );
   }
 }
@@ -46,12 +48,16 @@ Logged.muiName = 'IconMenu';
  * This example is taking advantage of the composability of the `AppBar`
  * to render different components depending on the application state.
  */
-class NavBar extends Component {
-  state = {
-    // logged: (this.props.currentUser != undefined),
-    logged: this.props.isLoggedIn
-  };
+class NavBar extends Tracker.Component {
+  constructor(props) {
+    super(props)
 
+    this.autorun(() => {
+      this.setState({
+        logged: Meteor.user(),
+      });
+    })
+  }
 
   render() {
     return (
@@ -61,7 +67,7 @@ class NavBar extends Component {
           style={{position: 'fixed', background: lightBlue800}}
           className="nav-bar"
           onLeftIconButtonTouchTap={this.props.handleDrawerToggle}
-          iconElementRight={this.props.isLoggedIn ? <Logged {...this.props} /> : <Login />}
+          iconElementRight={this.state.logged ? <Logged {...this.props} /> : <Login />}
         />
       </div>
     );
@@ -69,3 +75,4 @@ class NavBar extends Component {
 }
 
 export default NavBar;
+

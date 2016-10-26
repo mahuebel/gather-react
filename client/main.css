@@ -19,8 +19,11 @@ form.add-gather {
 }
 
 .tabs {
-	padding-top: 64px;
 	z-index: 2;
+}
+
+.main-container {
+	padding-top: 64px;
 }
 
 .center-align {

@@ -1,6 +1,11 @@
 {
   "name": "gather",
   "private": true,
+  "babel": {
+    "presets": [
+      "stage-1"
+    ]
+  },
   "scripts": {
     "start": "meteor run"
   },
@@ -25,6 +30,7 @@
     "react-tap-event-plugin": "^1.0.0"
   },
   "devDependencies": {
+    "babel-preset-stage-1": "^6.16.0",
     "meteor-node-stubs": "^0.2.3"
   }
 }

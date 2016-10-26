@@ -19,8 +19,6 @@ import TextField from 'material-ui/TextField';
 
 import moment from 'moment';
 
-import { Row, Col } from 'react-flexbox-grid';
-
 import { red500, grey400, lightBlueA400 } from 'material-ui/styles/colors.js';
 
 

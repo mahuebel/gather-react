@@ -10,6 +10,7 @@ meteor-base@1.0.4
 ecmascript@0.5.8_1
 es5-shim@4.6.14_1
 tracker@1.1.0
+session
 
 
 #standard libraries
@@ -47,6 +48,7 @@ reactive-var@1.0.10
 
 #mobile
 mobile-experience@1.0.4
+crosswalk@1.6.2
 
 
 #production

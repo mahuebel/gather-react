@@ -37,6 +37,7 @@ export default class App extends Tracker.Component {
 	}
 
 	handleLogout = () => {
+		console.log("user logged out.")
 		Meteor.logout()
 		browserHistory.push('signin')
 	}
@@ -83,6 +84,10 @@ export default class App extends Tracker.Component {
 					/>
 					<div className="main-container">
 						{this.props.children || "Welcome to Gather"}
+					</div>
+
+					<div className="center-align" style={{position: "fixed", bottom: "20px", textAlign: "center", width: "100%"}}>
+						<a href="/signin" class="signin">Sign in.</a>
 					</div>
 				</div>
 				

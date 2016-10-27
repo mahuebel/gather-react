@@ -21,7 +21,6 @@ function requireAuth(nextState, replace) {
             pathname: 'signin',
             state: { nextPathname: nextState.location.pathname }
         })
-        console.log(nextState)
     }
     
 }

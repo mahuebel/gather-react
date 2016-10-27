@@ -13,8 +13,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 export default class SignInPage extends Component {
   constructor(props) {
     super(props);
-    console.log(this)
-    console.log(this.props)
   }
 
   render() {

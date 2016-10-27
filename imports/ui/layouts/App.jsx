@@ -6,7 +6,7 @@ import { Accounts, STATES } from 'meteor/zetoff:accounts-material-ui';
 
 import { Gathers } from '../../api/gathers/gathers.js';
 import { Session } from 'meteor/session';
-import { browserHistory } from 'react-router';
+import { browserHistory, Link } from 'react-router';
 
  
 import NavBar from '../components/NavBar.jsx';
@@ -87,7 +87,9 @@ export default class App extends Tracker.Component {
 					</div>
 
 					<div className="center-align" style={{position: "fixed", bottom: "20px", textAlign: "center", width: "100%"}}>
-						<a href="/signin" class="signin">Sign in.</a>
+						<Link to="/" className="link-auth-alt">
+				          []D [] []v[] []D
+				        </Link>
 					</div>
 				</div>
 				

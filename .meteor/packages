@@ -37,7 +37,6 @@ mdg:validation-error
 
 #accounts
 #accounts-ui   #standard accounts lib, to be replaced by Material variety
-#std:accounts-material
 zetoff:accounts-material-ui
 accounts-password
 accounts-facebook
@@ -52,7 +51,7 @@ reactive-var@1.0.10
 
 #mobile
 mobile-experience@1.0.4
-crosswalk@1.6.2
+#crosswalk@1.6.2
 
 
 #production

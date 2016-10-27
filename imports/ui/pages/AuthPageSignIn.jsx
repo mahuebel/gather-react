@@ -17,11 +17,13 @@ export default class SignInPage extends Component {
 
   render() {
     const content = (
+      <div>
       <MuiThemeProvider>
         <div className="container">
           <Accounts.ui.LoginForm formState={STATES.SIGN_IN} />
         </div>
       </MuiThemeProvider>
+      </div>
     );
 
     const link = (

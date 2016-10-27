@@ -16,11 +16,13 @@ export default class JoinPage extends Component {
 
   render() {
     const content = (
+      <div>
       <MuiThemeProvider>
         <div className="container">
           <Accounts.ui.LoginForm formState={STATES.SIGN_UP} />
         </div>
       </MuiThemeProvider>
+      </div>
     );
 
     const link = (

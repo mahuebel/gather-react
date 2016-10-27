@@ -4,6 +4,10 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 
+import { Push } from 'meteor/raix:push';
+import moment from 'moment';
+
+
 import { Gathers, LocationSchema } from './gathers.js';
 import { InviteLists } from '../invite-lists/invite-lists.js';
 
@@ -64,6 +68,8 @@ export const toggleAttendee = new ValidatedMethod({
 
     let attendees = gather.attendees || []
 
+    let beforeCount = attendees.length
+
     let ind = attendees.indexOf(attendeeId) 
 
     if (ind > -1) {
@@ -73,6 +79,25 @@ export const toggleAttendee = new ValidatedMethod({
 
       }
     } else {
+
+      let newGuy = Meteor.users.findOne(attendeeId)
+
+      let name = newGuy.profile ? newGuy.profile.name : newGuy.username
+
+      Push.send({
+        from: 'push',
+        title: `${name} is in!`,
+        text: `${name} decided to attend ${gather.displayName()}`,
+        badge: 1, //optional, use it to set badge count of the receiver when the app is in background.
+        query: {
+            // Ex. send to a specific user if using accounts:
+            userId: {$in: attendees}
+        } // Query the appCollection
+        // token: appId or token eg. "{ apn: token }"
+        // tokens: array of appId's or tokens
+        // payload: user data
+        // delayUntil: Date
+      });
       attendees.push(attendeeId)
     }
 
@@ -106,6 +131,7 @@ export const inviteOne = new ValidatedMethod({
 
     invited.push(inviteeId)
 
+
     Gathers.update(gatherId, { $set: {
       invited: invited,
     } });
@@ -123,6 +149,7 @@ export const inviteMany = new ValidatedMethod({
     const gather = Gathers.findOne(gatherId);
 
     let invited = gather.invited || [] 
+    let newInvites = []
 
     if (gather.type === "PRIVATE" && !(invited.indexOf(userId) > -1) && gather.creatorId !== userId) {
       throw new Meteor.Error('api.gathers.inviteMany.accessDenied',
@@ -133,8 +160,30 @@ export const inviteMany = new ValidatedMethod({
       let invitee = inviteeIds[i]
       if (invited.indexOf(invitee) === -1){
         invited.push(invitee)
+        newInvites.push(invitee)
       }
     }
+
+    let inviter = Meteor.users.findOne(userId)
+
+    let name = inviter.profile ? inviter.profile.name : inviter.username
+
+    let date    = moment(gather.start).format("ddd MMM Do, h:mm a")
+
+    Push.send({
+      from: 'push',
+      title: `${name} wants you to hang out at ${gather.displayName()}`,
+      text: `Come join ${name}, ...display mutual friends going here... at ${gather.displayName()} | ${date}`,
+      badge: 1, //optional, use it to set badge count of the receiver when the app is in background.
+      query: {
+          // Ex. send to a specific user if using accounts:
+          userId: {$in: attendees}
+      } // Query the appCollection
+      // token: appId or token eg. "{ apn: token }"
+      // tokens: array of appId's or tokens
+      // payload: user data
+      // delayUntil: Date
+    });
 
 
     Gathers.update(gatherId, { $set: {
@@ -168,6 +217,27 @@ export const inviteList = new ValidatedMethod({
         invited.push(inviteeId)
       } 
     }
+
+    let inviter = Meteor.users.findOne(userId)
+
+    let name = inviter.profile ? inviter.profile.name : inviter.username
+
+    let date    = moment(gather.start).format("ddd MMM Do, h:mm a")
+
+    Push.send({
+      from: 'push',
+      title: `${name} wants you to hang out at ${gather.displayName()}`,
+      text: `Come join ${name}, ...display mutual friends going here... at ${gather.displayName()} | ${date}`,
+      badge: 1, //optional, use it to set badge count of the receiver when the app is in background.
+      query: {
+          // Ex. send to a specific user if using accounts:
+          userId: {$in: inviteList.userIds}
+      } // Query the appCollection
+      // token: appId or token eg. "{ apn: token }"
+      // tokens: array of appId's or tokens
+      // payload: user data
+      // delayUntil: Date
+    });
 
 
     Gathers.update(gatherId, { $set: {

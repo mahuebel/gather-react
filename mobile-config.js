@@ -47,6 +47,10 @@ App.launchScreens({
   'android_xhdpi_landscape': 'resources/splash/splash-1280x720.png',
 });
 
+App.configurePlugin('phonegap-plugin-push', {
+  SENDER_ID: 962800377191
+});
+
 App.setPreference('StatusBarOverlaysWebView', 'false');
 App.setPreference('StatusBarBackgroundColor', '#000000');
 App.setPreference('Orientation', 'portrait');

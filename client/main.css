@@ -26,6 +26,14 @@ form.add-gather {
 	padding-top: 64px;
 }
 
+a[href="signin"] div {
+	display: none;
+}
+
+a[href="signup"] div {
+	display: none;
+}
+
 .center-align {
 	text-align: center;
 }

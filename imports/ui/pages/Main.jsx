@@ -90,14 +90,14 @@ export default class Main extends Tracker.Component {
 	componentWillMount() {
 		// Check that the user is logged in before the component mounts
 		if (!this.state.isAuthenticated) {
-			browserHistory.push('/signin');
+			// browserHistory.push('/signin');
 		}
 	}
 
 	componentDidUpdate() {
 		// Navigate to a sign in page if the user isn't authenticated when data changes
 		if (!this.state.isAuthenticated) {
-			browserHistory.push('/signin');
+			// browserHistory.push('/signin');
 		}
 	}
 

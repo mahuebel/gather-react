@@ -17,8 +17,8 @@ if (Meteor.isServer) {
  
 Accounts.ui.config({
   passwordSignupFields: 'USERNAME_ONLY',
-  loginPath: '/signin',
-  signUpPath: '/signup',
+  loginPath: 'signin',
+  signUpPath: 'signup',
   onSignedInHook: () => { browserHistory.push('/'); },
-  onSignedOutHook: () => { browserHistory.push('/signin'); }
+  onSignedOutHook: () => { browserHistory.push('signin'); }
 });

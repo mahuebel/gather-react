@@ -38,7 +38,7 @@ export default class App extends Tracker.Component {
 
 	handleLogout = () => {
 		Meteor.logout()
-		// browserHistory.push('/auth/signin')
+		browserHistory.push('signin')
 	}
 
 	handleDrawerToggle = () => {

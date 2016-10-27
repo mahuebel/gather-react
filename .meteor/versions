@@ -38,6 +38,7 @@ email@1.1.17_1
 es5-shim@4.6.14_1
 facebook@1.2.8
 fastclick@1.0.12
+force-ssl@1.0.12
 fortawesome:fontawesome@4.6.3
 geojson-utils@1.0.9
 hot-code-push@1.0.4

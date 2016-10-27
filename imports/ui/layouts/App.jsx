@@ -2,7 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
 import Tracker from 'tracker-component';
 // import { Accounts, STATES } from 'meteor/std:accounts-material';
-import { Accounts, STATES } from 'meteor/zetoff:accounts-material-ui';
+// import { Accounts } from 'meteor/accounts-ui';
+// import { Accounts, STATES } from 'meteor/zetoff:accounts-material-ui';
+import AccountsUIWrapper from '../AccountsUIWrapper.jsx';
 
 import { Gathers } from '../../api/gathers/gathers.js';
 import { Session } from 'meteor/session';
@@ -16,7 +18,7 @@ import Main from '../pages/Main.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Loading from '../components/Loading.jsx';
 
-
+import Blaze from 'meteor/gadicc:blaze-react-component';
  
 export default class App extends Tracker.Component {
 	constructor(props) {
@@ -52,10 +54,7 @@ export default class App extends Tracker.Component {
 
 	componentWillMount() {
 		// Check that the user is logged in before the component mounts
-		let { currentUser } = this.props
-		if (!currentUser) {
-			// this.context.router.push('/signin');
-		}
+		console.log("cwm App.jsx")
 	}
 
 	componentDidUpdate() {
@@ -85,12 +84,9 @@ export default class App extends Tracker.Component {
 					<div className="main-container">
 						{this.props.children || "Welcome to Gather"}
 					</div>
+					<Blaze template="loginButtons" />
 
-					<div className="center-align" style={{position: "fixed", bottom: "20px", textAlign: "center", width: "100%"}}>
-						<Link to="/" className="link-auth-alt">
-				          []D [] []v[] []D
-				        </Link>
-					</div>
+
 				</div>
 				
 			</MuiThemeProvider>

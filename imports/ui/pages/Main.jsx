@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
-// import { Accounts, STATES } from 'meteor/std:accounts-material';
-import { Accounts, STATES } from 'meteor/zetoff:accounts-material-ui';
+// // import { Accounts, STATES } from 'meteor/std:accounts-material';
+// import { Accounts } from 'meteor/accounts-ui';
+// // import { Accounts, STATES } from 'meteor/zetoff:accounts-material-ui';
 import Tracker from 'tracker-component';
 
 import { Gathers } from '../../api/gathers/gathers.js';
@@ -33,6 +34,10 @@ export default class Main extends Tracker.Component {
 				menuOpen: false,
 			});
 		})
+		this.state = {
+			selectedTab: "PRIVATE",
+			menuOpen: false,
+		};
 	}
 
 
@@ -58,7 +63,6 @@ export default class Main extends Tracker.Component {
 
 
   	renderGathers() {
-		// console.log(this.props)
 
 		let filteredGathers = this.props.gathers;
 
@@ -89,6 +93,7 @@ export default class Main extends Tracker.Component {
 
 	componentWillMount() {
 		// Check that the user is logged in before the component mounts
+		console.log("cwm in Main.jsx")
 		if (!this.state.isAuthenticated) {
 			// browserHistory.push('/signin');
 		}
@@ -161,7 +166,7 @@ export default class Main extends Tracker.Component {
 					</Tab>
 				</Tabs>
 			</div> 
-			: 'Womp womp'
+			: 'Welcome. Please sign in'
 			}
 		</div>
 		);

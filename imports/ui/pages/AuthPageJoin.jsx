@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 
 import { Link } from 'react-router';
 // import { Accounts, STATES } from 'meteor/std:accounts-material';
-import { Accounts, STATES } from 'meteor/zetoff:accounts-material-ui';
+import { Accounts } from 'meteor/accounts-ui';
+// import { Accounts, STATES } from 'meteor/zetoff:accounts-material-ui';
 import AuthPage from './AuthPage.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -19,7 +20,7 @@ export default class JoinPage extends Component {
       <div>
       <MuiThemeProvider>
         <div className="container">
-          <Accounts.ui.LoginForm formState={STATES.SIGN_UP} />
+          <AccountsUIWrapper />
         </div>
       </MuiThemeProvider>
       </div>
@@ -33,10 +34,16 @@ export default class JoinPage extends Component {
       </div>
     );
 
-    return <AuthPage content={content} link={link} />
+    return (
+      <div className="join-page">
+        <AuthPage content={content} link={link} />)
+      </div>
+      );
   }
 }
 
 JoinPage.contextTypes = {
   router: React.PropTypes.object,
 };
+
+// <Accounts.ui.LoginForm formState={STATES.SIGN_UP} />

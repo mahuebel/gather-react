@@ -4,9 +4,10 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
 // import { Accounts, STATES } from 'meteor/std:accounts-material';
-import { Accounts, STATES } from 'meteor/zetoff:accounts-material-ui';
+import { Accounts } from 'meteor/accounts-ui';
+// import { Accounts, STATES } from 'meteor/zetoff:accounts-material-ui';
 import AuthPage from './AuthPage.jsx';
-
+import AccountsUIWrapper from '../AccountsUIWrapper.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
@@ -20,7 +21,7 @@ export default class SignInPage extends Component {
       <div>
       <MuiThemeProvider>
         <div className="container">
-          <Accounts.ui.LoginForm formState={STATES.SIGN_IN} />
+          <AccountsUIWrapper />
         </div>
       </MuiThemeProvider>
       </div>
@@ -34,10 +35,16 @@ export default class SignInPage extends Component {
       </div>
     );
 
-    return <AuthPage content={content} link={link} />
+    return (
+      <div className="signin-page">
+        <AuthPage content={content} link={link} />
+      </div>
+      );
   }
 }
 
 SignInPage.contextTypes = {
   router: React.PropTypes.object,
 };
+
+// <Accounts.ui.LoginForm formState={STATES.SIGN_IN} />

@@ -1,8 +1,39 @@
 import { Meteor } from 'meteor/meteor';
 import { Gathers } from '../../api/gathers/gathers.js';
+import { ServiceConfiguration } from 'meteor/service-configuration';
 
 // if the database is empty on server start, create some sample data.
 Meteor.startup(() => {
+
+  configureFacebook = function(config) {
+    // first, remove configuration entry in case service is already configured
+    ServiceConfiguration.configurations.remove({
+        service: "facebook"
+    });
+
+   ServiceConfiguration.configurations.insert({
+        service: "facebook",
+        appId: config.clientId,
+        secret: config.secret
+    });
+  };
+
+  // set the settings object with meteor --settings private/settings-local.json
+  var facebookConfig = Meteor.settings.facebook;
+  if(facebookConfig) {
+      console.log('Got settings for facebook', facebookConfig)
+      configureFacebook(facebookConfig);
+  }
+
+  // ServiceConfiguration.configurations.remove({
+  //     service: 'facebook'
+  // });
+   
+  // ServiceConfiguration.configurations.insert({
+  //     service: 'facebook',
+  //     appId: '1020522408060337',
+  //     secret: '8f91ef0249ac107c3d60d9175c0a2b67'
+  // });
   /*
   if (Gathers.find().count() === 0) {
     let timestamp = (new Date()).getTime();

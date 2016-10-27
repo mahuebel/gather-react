@@ -7,6 +7,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 
 import { browserHistory } from 'react-router';
+import AccountsUIWrapper from '../AccountsUIWrapper.jsx'
 
 
 
@@ -49,7 +50,7 @@ export default class DrawerMenu extends Component {
 					<Divider />
 					<MenuItem onTouchTap={this.props.onClose} leftIcon={ <ActionAllOut /> }>Radius</MenuItem>
 					<Divider />
-					<MenuItem onTouchTap={this.handleSignIn} rightIcon={ <SocialPerson /> }>Sign in</MenuItem>
+					<MenuItem onTouchTap={this.handleSignIn} rightIcon={ <SocialPerson /> }><AccountsUIWrapper /></MenuItem>
 		        </Drawer>
 			</div>
 		);

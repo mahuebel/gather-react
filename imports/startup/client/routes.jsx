@@ -2,7 +2,9 @@ import React from 'react';
 import { Router, IndexRoute, Route, browserHistory } from 'react-router';
 import { Meteor } from 'meteor/meteor';
 // import { Accounts, STATES } from 'meteor/std:accounts-material';
-import { Accounts, STATES } from 'meteor/zetoff:accounts-material-ui';
+// import { Accounts, STATES } from 'meteor/zetoff:accounts-material-ui';
+import { Accounts } from 'meteor/accounts-ui';
+
 // route components
 import AppContainer from '../../ui/containers/AppContainer.jsx';
 import GatherPageContainer from '../../ui/containers/GatherPageContainer.jsx';
@@ -21,17 +23,18 @@ function requireAuth(nextState, replace) {
             pathname: 'signin',
             state: { nextPathname: nextState.location.pathname }
         })
+
     }
     
 }
-
+// onEnter={ requireAuth }
 
 export const renderRoutes = () => (
   	<Router history={ browserHistory }>
 
 
 		<Route path="/" component={ AppContainer } >
-	        <IndexRoute component={ MainContainer } onEnter={ requireAuth } />
+	        <IndexRoute component={ MainContainer }  />
 			<Route path="/gather/:id" component={ GatherPageContainer } />
 			<Route path="signin" component={ AuthPageSignIn } />
       		<Route path="signup" component={ AuthPageJoin } />

@@ -33,6 +33,7 @@ export default class DrawerMenu extends Component {
 	  }
 
 	  handleGoHome = () => {
+	  	this.toggleMenu()
 	  	browserHistory.push('/')
 	  }
 
@@ -52,13 +53,13 @@ export default class DrawerMenu extends Component {
 				open={Session.get('menuOpen')}
 				onRequestChange={(menuOpen) => Session.set('menuOpen', menuOpen)}
 				>
+					<MenuItem onTouchTap={this.props.onClose} rightIcon={ <SocialPerson /> }>{display}</MenuItem>
 					<MenuItem onTouchTap={this.handleGoHome} leftIcon={ <ActionHome /> }>Home</MenuItem>
 					<MenuItem onTouchTap={this.props.onClose} leftIcon={ <SocialPeople /> }>Friends</MenuItem>
 					<MenuItem onTouchTap={this.props.onClose} leftIcon={ <SocialPeopleOutline /> }>Groups</MenuItem>
 					<Divider />
 					<MenuItem onTouchTap={this.props.onClose} leftIcon={ <ActionAllOut /> }>Radius</MenuItem>
 					<Divider />
-					<MenuItem onTouchTap={this.handleSignIn} rightIcon={ <SocialPerson /> }>{display}</MenuItem>
 		        </Drawer>
 			</div>
 		);

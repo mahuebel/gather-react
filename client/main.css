@@ -66,12 +66,62 @@ a[href="signup"] div {
   margin-right: -0.75rem;
 }
 
-div.facebook-login {
-	padding-top: 20px;
+div.accounts-dialog {
+	/*text-align: center;*/
+	z-index: 25;
 }
 
-div.facebook-login button {
-	background-color: #01579B;
+div.join-page, div.signin-page {
+	min-height: calc(100vh - 64px);
+	min-width: 100vw;
+	background-color: #81D4FA;
+}
+
+div.auth.page img {
+	padding-top: 20px;
+	padding-bottom: 10px;
+	/*height: 130px;*/
+}
+
+div.auth.page {
+	padding-top: 40px;
+}
+
+div.facebook-login {
+	padding-top: 20px;
+	line-height: 30px;
+}
+
+div.facebook-login span {
+	font-size: 1.25rem;
+	font-weight: 300;
+	color: #01579B;
+}
+
+div.like-gather {
+	width: auto;
+	text-align: right;
+
+}
+
+div.like-gather div {
+	width: auto;
+	text-align: right;
+
+}
+
+div.sign-in-toggle {
+	padding-top: 30px;
+}
+
+
+div.sign-in-toggle a {
+	color: #0288D1;
+	text-decoration: none;
+}
+
+div.sign-in-toggle a:hover {
+	color: #03A9F4;
 }
 
 .gathers-list {
@@ -82,8 +132,9 @@ div.facebook-login button {
 }
 
 div.gather-show {
-
+	padding-top: 20px;
 }
+
 
 
 .place-picker {
@@ -162,7 +213,3 @@ form.add-gather div.type-select {
 
 
 
-div.accounts-dialog {
-	/*text-align: center;*/
-	z-index: 25;
-}

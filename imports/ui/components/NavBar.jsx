@@ -67,7 +67,7 @@ class NavBar extends Tracker.Component {
           style={{position: 'fixed', background: lightBlue800}}
           className="nav-bar"
           onLeftIconButtonTouchTap={this.props.handleDrawerToggle}
-          iconElementRight={this.state.logged ? <Logged {...this.props} /> : <Login />}
+          iconElementRight={this.state.logged ? <Logged {...this.props} /> : ""}
         />
       </div>
     );

@@ -1,7 +1,5 @@
-// import { Accounts } from 'meteor/accounts-base';
-// import { Accounts, STATES } from 'meteor/zetoff:accounts-material-ui';
 import { Accounts } from 'meteor/accounts-base';
-// import { Accounts } from 'meteor/std:accounts-material';
+
 import { Meteor } from 'meteor/meteor';
 import { browserHistory } from 'react-router';
 
@@ -17,11 +15,11 @@ if (Meteor.isServer) {
 	
 }
  
-Accounts.ui.config({
-  passwordSignupFields: 'USERNAME_ONLY',
+// Accounts.ui.config({
+//   passwordSignupFields: 'USERNAME_ONLY',
   // loginPath: 'signin',
   // signUpPath: 'signup',
   // onSignedInHook: () => { browserHistory.push('/'); },
   // onSignedOutHook: () => { browserHistory.push('signin'); }
-});
+// });
 

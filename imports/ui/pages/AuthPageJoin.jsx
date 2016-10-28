@@ -10,7 +10,7 @@ import AuthPage from './AuthPage.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import { lightBlue900 } from 'material-ui/styles/colors.js';
+import { lightBlue500, lightBlue900 } from 'material-ui/styles/colors.js';
 
 export default class JoinPage extends Component {
   constructor(props) {
@@ -83,17 +83,24 @@ export default class JoinPage extends Component {
     const errorMessages = Object.keys(errors).map(key => errors[key]);
     const errorClass = key => errors[key] && 'error';
 
+    const styles = {
+      button: {
+        width: "256px",
+        backgroundColor: lightBlue500,
+        background: lightBlue500
+      },
+      facebook: {
+        backgroundColor: lightBlue900,
+        background: lightBlue900,
+        width: "256px",
+
+      }
+    }
 
     const content = (
       <div>
       <MuiThemeProvider>
-        <div className="container">
-          <h1 className="title-auth">
-            Join.
-          </h1>
-          <p className="subtitle-auth">
-            Join and gather your friends
-          </p>
+        <div className="container center-align">
           <form onSubmit={this.onSubmit}>
             <div className="list-errors">
               {errorMessages.map(msg => (
@@ -102,29 +109,31 @@ export default class JoinPage extends Component {
             </div>
             <div className={`input-symbol ${errorClass('username')}`}>
               <TextField
-                hintText="Your username"
+                hintText="Username"
                 ref={(c) => { this.username = c; }}
               />
             </div>
             <div className={`input-symbol ${errorClass('password')}`}>
               <TextField
-                hintText="Your Password"
+                hintText="Password"
                 type="password"
                 ref={(c) => { this.password = c; }}
               />
             </div>
             <div className={`input-symbol ${errorClass('confirm')}`}>
               <TextField
-                hintText="Confirm Your Password"
+                hintText="Confirm Password"
                 type="password"
                 ref={(c) => { this.confirm = c; }}
               />
             </div>
-            <RaisedButton label="Join" type="submit" primary={true} />
+            <div className="center-align">
+              <RaisedButton label="Join" style={styles.button} type="submit" />
+            </div>
           </form>
           <div className="facebook-login">
-            Or Login with: <br />
-            <RaisedButton label="Facebook" backgroundColor={lightBlue900} onTouchTap={this.handleFacebookLogin} primary={true} />
+            <span>Or Login with:</span> <br />
+            <RaisedButton label="Facebook" style={styles.facebook} onTouchTap={this.handleFacebookLogin} />
           </div>
         </div>
       </MuiThemeProvider>
@@ -132,7 +141,7 @@ export default class JoinPage extends Component {
     );
 
     const link = (
-      <div className="center-align">
+      <div className="sign-in-toggle center-align">
         <Link to="/signin" className="link-auth-alt">
           Have an account? Sign in
         </Link>
@@ -141,7 +150,7 @@ export default class JoinPage extends Component {
 
     return (
       <div className="join-page">
-        <AuthPage content={content} link={link} />)
+        <AuthPage content={content} link={link} />
       </div>
       );
   }

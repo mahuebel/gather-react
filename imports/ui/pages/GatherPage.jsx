@@ -17,6 +17,7 @@ import Divider from 'material-ui/Divider';
 import {Card, CardMedia, CardTitle, CardActions, CardText} from 'material-ui/Card';
 import {List} from 'material-ui/List';
 import FlatButton from 'material-ui/FlatButton';
+import Checkbox from 'material-ui/Checkbox';
 
 import SocialGroupAdd from 'material-ui/svg-icons/social/group-add';
 import SocialPersonAdd from 'material-ui/svg-icons/social/person-add';
@@ -33,7 +34,10 @@ export default class GatherPage extends Component {
 		super(props);
 		let { isFav } = this.props
 
-		this.state = { editingGather: false, isFav: false };
+		this.state = { 
+			editingGather: false, 
+			isFav: isFav, 
+		};
 	}
 
 	renderAttendees() {
@@ -171,21 +175,6 @@ export default class GatherPage extends Component {
 			);
 		}
 
-		const favButton = (
-			<ActionFavoriteBorder 
-			  	onTouchTap={this.handleFav}
-			  	color={pink100} 
-			  	hoverColor={pinkA200}
-		    />
-		);
-
-		const favFilled = (
-			<ActionFavorite 
-			  	onTouchTap={this.handleFav}
-			  	color={pink100} 
-			  	hoverColor={pinkA200}
-		    /> 
-		);
 
 	    let loc     = gather.loc
 
@@ -196,7 +185,7 @@ export default class GatherPage extends Component {
 		let mapType = "&maptype=roadmap";
 	    let url     = "http://maps.google.com/maps/api/staticmap?center=" 
 	    			  + loc.coordinates[0] + "," + loc.coordinates[1] +
-	                  "&zoom=14&size=600x250&key=AIzaSyAE50jz2KcryNZuELh4WCBGqCagnBU6MZI"
+	                  "&zoom=14&size=600x250&key=AIzaSyCbhTFXENjzhlS2P4nQyHlyRwqhzkeToSs"
 	                  +mapType+"&scale=2&sensor=false&markers=color:0x03A9F4%7C"
 	                 + loc.coordinates[0] + "," + loc.coordinates[1] 
 	                 + "&style=feature:landscape%7Celement:geometry.fill%7Ccolor:0xE1F5FE%7Cvisibility:on";
@@ -234,7 +223,14 @@ export default class GatherPage extends Component {
 							</CardMedia>
 							<CardTitle title={gather.displayName()} />
 							<CardActions>
-								{this.state.isFav ? favFilled : favButton}
+								<Checkbox
+							      checkedIcon={<ActionFavorite />}
+							      uncheckedIcon={<ActionFavoriteBorder />}
+							      label="Count me in!"
+							      checked={this.state.isFav}
+							      onCheck={this.handleFav}
+							      inputStyle={{color: "#03A9F4"}}
+							    />
 							</CardActions>
 						</Card>
 
@@ -262,6 +258,8 @@ export default class GatherPage extends Component {
 GatherPage.propTypes = {
   gather: PropTypes.object.isRequired,
   currentUser: PropTypes.object,
+  inviteLists: React.PropTypes.array,
+  isFav: React.PropTypes.bool,
   // attendees: React.PropTypes.object,
   // invited: React.PropTypes.object,
   loading: React.PropTypes.bool,

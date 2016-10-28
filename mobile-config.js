@@ -50,7 +50,7 @@ App.launchScreens({
 });
 
 App.configurePlugin('phonegap-plugin-push', {
-  SENDER_ID: 962800377191
+  SENDER_ID: 928660251513
 });
 
 App.setPreference('StatusBarOverlaysWebView', 'false');

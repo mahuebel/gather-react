@@ -13,7 +13,7 @@ export default createContainer(() => {
   return {
     gathers: Gathers.find({start: {$gte: new Date()}}, {sort: {start: 1}}).fetch(),
     currentUser: Meteor.user(),
-    loading: !(publicHandle.ready() && privateHandle.ready()),
+    loading: !(publicHandle.ready() && privateHandle.ready() && !Meteor.user()),
     connected: Meteor.status().connected,
     menuOpen: Session.get('menuOpen'),
   };

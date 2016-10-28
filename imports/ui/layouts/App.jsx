@@ -80,12 +80,11 @@ export default class App extends Tracker.Component {
 					<DrawerMenu 
 					onClose={this.handleDrawerClose}
 					onToggle={this.handleDrawerToggle} 
+				 	currentUser={currentUser}
 					/>
 					<div className="main-container">
 						{this.props.children || "Welcome to Gather"}
 					</div>
-					<Blaze template="loginButtons" />
-
 
 				</div>
 				
@@ -95,15 +94,6 @@ export default class App extends Tracker.Component {
 	}
 }
 
-					// <div className="main-container">
-					// 	{currentUser ? 
-					// 	<Main gathers={gathers} currentUser={currentUser} />
-					// 	: 
-					// 	<div className="container">
-					// 		<Accounts.ui.LoginForm formState={STATES.SIGN_IN} /> 
-					// 	</div>
-					// 	}
-					// </div>
 
 App.propTypes = {
 	currentUser: React.PropTypes.object,

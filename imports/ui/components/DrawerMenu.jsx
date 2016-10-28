@@ -7,7 +7,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 
 import { browserHistory } from 'react-router';
-import AccountsUIWrapper from '../AccountsUIWrapper.jsx'
+// import AccountsUIWrapper from '../AccountsUIWrapper.jsx'
 
 
 
@@ -21,6 +21,7 @@ export default class DrawerMenu extends Component {
 	constructor(props) {
 		super(props)
 		Session.set('menuOpen', false)
+
 	}
 
 	toggleMenu() {
@@ -36,6 +37,13 @@ export default class DrawerMenu extends Component {
 	  }
 
 	render() {
+		const { currentUser } = this.props
+		let display = ""
+		if (currentUser && currentUser.profile) {
+			display = currentUser.profile.name 
+		} else if (currentUser) {
+			display = currentUser.username
+		}
 		return (
 			<div>
 				<Drawer
@@ -50,7 +58,7 @@ export default class DrawerMenu extends Component {
 					<Divider />
 					<MenuItem onTouchTap={this.props.onClose} leftIcon={ <ActionAllOut /> }>Radius</MenuItem>
 					<Divider />
-					<MenuItem onTouchTap={this.handleSignIn} rightIcon={ <SocialPerson /> }><AccountsUIWrapper /></MenuItem>
+					<MenuItem onTouchTap={this.handleSignIn} rightIcon={ <SocialPerson /> }>{display}</MenuItem>
 		        </Drawer>
 			</div>
 		);

@@ -11,6 +11,7 @@ import { browserHistory } from 'react-router';
 
 import {List} from 'material-ui/List';
 import {Tabs, Tab} from 'material-ui/Tabs';
+import SwipeableViews from 'react-swipeable-views';
 
 import Gather from '../components/Gather.jsx';
 import Pickers from '../components/Pickers.jsx';
@@ -37,27 +38,29 @@ export default class Main extends Tracker.Component {
 		this.state = {
 			selectedTab: "PRIVATE",
 			menuOpen: false,
+			slideIndex: 0,
 		};
 	}
 
 
 	onTabChange = (value) => {
 
-		// let selectedTab
-		// switch(value){
-		// 	case 0:
-		// 		selectedTab = "PRIVATE"
-		// 		break;
-		// 	case 1: 
-		// 		selectedTab = "PUBLIC"
-		// 		break;
-		// 	case 2: 
-		// 		selectedTab = "SCHEDULE"
-		// 		break;
-		// }
+		let selectedTab
+		switch(value){
+			case 0:
+				selectedTab = "PRIVATE"
+				break;
+			case 1: 
+				selectedTab = "PUBLIC"
+				break;
+			case 2: 
+				selectedTab = "SCHEDULE"
+				break;
+		}
 
 	    this.setState({
-	      selectedTab: value,
+	      selectedTab,
+	      slideIndex: value,
 	    });
   	};
 
@@ -94,15 +97,15 @@ export default class Main extends Tracker.Component {
 	componentWillMount() {
 		// Check that the user is logged in before the component mounts
 		console.log("cwm in Main.jsx")
-		if (!this.state.isAuthenticated) {
-			// browserHistory.push('/signin');
+		if (!this.props.currentUser) {
+			browserHistory.push('/signin');
 		}
 	}
 
 	componentDidUpdate() {
 		// Navigate to a sign in page if the user isn't authenticated when data changes
-		if (!this.state.isAuthenticated) {
-			// browserHistory.push('/signin');
+		if (!this.props.currentUser) {
+			browserHistory.push('/signin');
 		}
 	}
 
@@ -125,49 +128,57 @@ export default class Main extends Tracker.Component {
 				bottom: "auto"
 			}
 		}
+
+		const { loading } = this.props
+
+		if(loading) {
+			<Loading />
+		}
 		return (
 		<div className="tabs">
-			{this.state.isAuthenticated ? 
 			<div>
 				<Pickers /> 
 				<Tabs
-			        value={this.state.selectedTab}
+			        value={this.state.slideIndex}
 			        onChange={this.onTabChange}
 			        tabItemContainerStyle={styles.tabs}
 			        inkBarStyle={styles.inkBar}
 			        contentContainerStyle={styles.tabItem}>
 
-					<Tab icon={<ContentInbox />} value="PRIVATE" >
-						<div className="tab container">
-							<div className="gathers-list">
-								<List>	
-									{this.renderGathers()}
-								</List>
-							</div>
-						</div>
-					</Tab>
-					<Tab icon={<MapsNearMe />} value="PUBLIC" >	
-						<div className="tab container">
-							<div className="gathers-list">
-								<List>	
-									{this.renderGathers()}
-								</List>
-							</div>
-						</div>
-					</Tab>
-					<Tab icon={<ActionFavorite />} value="SCHEDULE" >	
-						<div className="tab container">   
-							<div className="gathers-list">
-								<List>	
-									{this.renderGathers()}
-								</List>
-							</div>
-						</div>
-					</Tab>
+					<Tab icon={<ContentInbox />} value={0} />
+					<Tab icon={<MapsNearMe />} value={1} />	
+					<Tab icon={<ActionFavorite />} value={2} />	
 				</Tabs>
+				<SwipeableViews
+					index={this.state.slideIndex}
+					onChangeIndex={this.onTabChange}
+				>
+					<div className="tab container">
+						<div className="gathers-list">
+							<List>	
+								{this.renderGathers()}
+							</List>
+						</div>
+					</div>
+
+					<div className="tab container">
+						<div className="gathers-list">
+							<List>	
+								{this.renderGathers()}
+							</List>
+						</div>
+					</div>
+
+					<div className="tab container">   
+						<div className="gathers-list">
+							<List>	
+								{this.renderGathers()}
+							</List>
+						</div>
+					</div>
+
+				</SwipeableViews>
 			</div> 
-			: 'Welcome. Please sign in'
-			}
 		</div>
 		);
 	}

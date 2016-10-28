@@ -2,7 +2,7 @@ import { Push } from 'meteor/raix:push';
 
 Push.Configure({
   android: {
-    senderID: 962800377191,
+    senderID: 928660251513,
     alert: true,
     badge: true,
     sound: true,

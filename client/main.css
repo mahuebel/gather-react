@@ -22,6 +22,10 @@ form.add-gather {
 	z-index: 2;
 }
 
+div.tab.container {
+	min-height: calc(100vh - 112px);
+}
+
 .main-container {
 	padding-top: 64px;
 }
@@ -62,6 +66,13 @@ a[href="signup"] div {
   margin-right: -0.75rem;
 }
 
+div.facebook-login {
+	padding-top: 20px;
+}
+
+div.facebook-login button {
+	background-color: #01579B;
+}
 
 .gathers-list {
 	/*background: white;*/

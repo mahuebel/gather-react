@@ -177,7 +177,7 @@ export const inviteMany = new ValidatedMethod({
       badge: 1, //optional, use it to set badge count of the receiver when the app is in background.
       query: {
           // Ex. send to a specific user if using accounts:
-          userId: {$in: attendees}
+          userId: {$in: newInvites}
       } // Query the appCollection
       // token: appId or token eg. "{ apn: token }"
       // tokens: array of appId's or tokens

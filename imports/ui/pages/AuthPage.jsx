@@ -6,13 +6,15 @@ const AuthPage = ({ content, link }) => (
     <div className="content-scrollable center-align">
       {content}
       {link}
-      <img
-	    src="/gather_logo.svg"
-	    alt="Gather"
-	  />
+
     </div>
   </div>
 );
+
+   //    <img
+	  //   src="/gather_logo.svg"
+	  //   alt="Gather"
+	  // />
 
 AuthPage.propTypes = {
   content: React.PropTypes.element,

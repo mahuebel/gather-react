@@ -5,6 +5,7 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 
 import { Push } from 'meteor/raix:push';
+
 import moment from 'moment';
 
 
@@ -73,6 +74,7 @@ export const toggleAttendee = new ValidatedMethod({
     let ind = attendees.indexOf(attendeeId) 
 
     if (ind > -1) {
+      /*We need to remove this user from the attendees list*/
       while(ind > -1) {
         attendees.splice(ind)
         ind = attendees.indexOf(attendeeId)
@@ -87,12 +89,17 @@ export const toggleAttendee = new ValidatedMethod({
       Push.send({
         from: 'push',
         title: `${name} is in!`,
-        text: `${name} decided to attend ${gather.displayName()}`,
+        text: `${name} is down for ${gather.displayName()}`,
         badge: 1, //optional, use it to set badge count of the receiver when the app is in background.
         query: {
             // Ex. send to a specific user if using accounts:
             userId: {$in: attendees}
-        } // Query the appCollection
+        }, // Query the appCollection
+        gcm: {
+          style: 'inbox',
+          summaryText: 'There are %n% notifications',
+          image: '/gather_logo.svg'
+        }
         // token: appId or token eg. "{ apn: token }"
         // tokens: array of appId's or tokens
         // payload: user data
@@ -170,20 +177,42 @@ export const inviteMany = new ValidatedMethod({
 
     let date    = moment(gather.start).format("ddd MMM Do, h:mm a")
 
-    Push.send({
+    let loc     = gather.loc
+
+    let latTrans = .0007312 + loc.coordinates[0]
+    let lngTransZ14 = .0192011 + loc.coordinates[1]
+    let lngTransZ13 = .035000 + loc.coordinates[1]
+
+    let mapType = "&maptype=roadmap";
+    let url     = "https://maps.google.com/maps/api/staticmap?center=" 
+            + loc.coordinates[0] + "," + loc.coordinates[1] +
+                  "&zoom=14&size=600x250&key=AIzaSyCbhTFXENjzhlS2P4nQyHlyRwqhzkeToSs"
+                  +mapType+"&scale=2&sensor=false&markers=color:0x03A9F4%7C"
+                 + loc.coordinates[0] + "," + loc.coordinates[1] 
+                 + "&style=feature:landscape%7Celement:geometry.fill%7Ccolor:0xE1F5FE%7Cvisibility:on";
+
+
+    var p = Push.send({
       from: 'push',
       title: `${name} wants you to hang out at ${gather.displayName()}`,
-      text: `Come join ${name}, ...display mutual friends going here... at ${gather.displayName()} | ${date}`,
-      badge: 1, //optional, use it to set badge count of the receiver when the app is in background.
+      text: `Come join ${name} at ${gather.displayName()} | ${date} text`,
+      // badge: 1, //optional, use it to set badge count of the receiver when the app is in background.
       query: {
           // Ex. send to a specific user if using accounts:
           userId: {$in: newInvites}
-      } // Query the appCollection
+      }, // Query the appCollection
+      gcm: {
+        style: 'picture',
+        picture: url,
+        summaryText: `Come join ${name} at ${gather.displayName()} | ${date}`
+      }
       // token: appId or token eg. "{ apn: token }"
       // tokens: array of appId's or tokens
       // payload: user data
       // delayUntil: Date
     });
+
+    console.log("push", p)
 
 
     Gathers.update(gatherId, { $set: {

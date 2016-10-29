@@ -183,7 +183,7 @@ export default class GatherPage extends Component {
 	    let lngTransZ13 = .035000 + loc.coordinates[1]
 
 		let mapType = "&maptype=roadmap";
-	    let url     = "http://maps.google.com/maps/api/staticmap?center=" 
+	    let url     = "https://maps.google.com/maps/api/staticmap?center=" 
 	    			  + loc.coordinates[0] + "," + loc.coordinates[1] +
 	                  "&zoom=14&size=600x250&key=AIzaSyCbhTFXENjzhlS2P4nQyHlyRwqhzkeToSs"
 	                  +mapType+"&scale=2&sensor=false&markers=color:0x03A9F4%7C"

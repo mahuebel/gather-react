@@ -11,7 +11,7 @@ Push.Configure({
   gcm: {
     apiKey: 'AIzaSyC5u6Z4IooYGDuXjdXLWPdqhtfF8eLnjWQ',
     projectNumber: 928660251513
-  }
+  },
   production: true,
   // 'sound' true,
   // 'badge' true,

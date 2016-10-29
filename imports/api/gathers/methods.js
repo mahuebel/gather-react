@@ -86,27 +86,30 @@ export const toggleAttendee = new ValidatedMethod({
 
       let name = newGuy.profile ? newGuy.profile.name : newGuy.username
 
+      
+      attendees.push(attendeeId)
+      
       Push.send({
         from: 'push',
         title: `${name} is in!`,
-        // text: `${name} is down for ${gather.displayName()}`,
-        // badge: 1, //optional, use it to set badge count of the receiver when the app is in background.
-        
+        badge: gather.attendees.length, //optional, use it to set badge count of the receiver when the app is in background.
         gcm: {
           style: 'inbox',
           summaryText: 'There are %n% notifications',
           image: 'https://gather-meteor.herokuapp.com/gather_logo.svg'
         },
+        text: `${name} is down for ${gather.displayName()}
+        ${moment(gather.start).format("ddd MMM Do, h:mm a")}`,
         query: {
             // Ex. send to a specific user if using accounts:
             userId: {$in: attendees}
         } // Query the appCollection
+        //,
         // token: appId or token eg. "{ apn: token }"
         // tokens: array of appId's or tokens
         // payload: user data
         // delayUntil: Date
       });
-      attendees.push(attendeeId)
     }
 
     Gathers.update(gatherId, { $set: {
@@ -184,18 +187,18 @@ export const inviteMany = new ValidatedMethod({
     var p = Push.send({
       from: 'push',
       title: `${name} wants to gather at ${gather.displayName()}`,
-      // text: `Come join ${name} at 
-      //   ${gather.displayName()}
-      //   ${date} text`,
-      // badge: 1, //optional, use it to set badge count of the receiver when the app is in background.
+      badge: gather.attendees.length,  //optional, use it to set badge count of the receiver when the app is in background.
       gcm: {
         style: 'picture',
         picture: gather.mapUrl(),
         summaryText: `Come join ${name} at 
-          ${gather.displayName()} 
-          ${date} summary`,
+        ${gather.displayName()} 
+        ${date} summary`,
         image: 'https://gather-meteor.herokuapp.com/gather_logo.svg'
       },
+      text: `Come join ${name} at 
+      ${gather.displayName()}
+      ${date}`,
       query: {
           // Ex. send to a specific user if using accounts:
           userId: {$in: newInvites}

@@ -92,23 +92,17 @@ export const toggleAttendee = new ValidatedMethod({
       Push.send({
         from: 'push',
         title: `${name} is in!`,
-        badge: gather.attendees.length, //optional, use it to set badge count of the receiver when the app is in background.
+        badge: gather.attendees.length,
+        query: {
+            userId: {$in: attendees}
+        }, 
         gcm: {
+          image: 'https://gather-meteor.herokuapp.com/gather_logo.svg',
           style: 'inbox',
-          summaryText: 'There are %n% notifications',
-          image: 'https://gather-meteor.herokuapp.com/gather_logo.svg'
+          summaryText: 'There are %n% notifications'
         },
         text: `${name} is down for ${gather.displayName()}
-        ${moment(gather.start).format("ddd MMM Do, h:mm a")}`,
-        query: {
-            // Ex. send to a specific user if using accounts:
-            userId: {$in: attendees}
-        } // Query the appCollection
-        //,
-        // token: appId or token eg. "{ apn: token }"
-        // tokens: array of appId's or tokens
-        // payload: user data
-        // delayUntil: Date
+        ${moment(gather.start).format("ddd MMM Do, h:mm a")}`
       });
     }
 
@@ -187,7 +181,10 @@ export const inviteMany = new ValidatedMethod({
     var p = Push.send({
       from: 'push',
       title: `${name} wants to gather at ${gather.displayName()}`,
-      badge: gather.attendees.length,  //optional, use it to set badge count of the receiver when the app is in background.
+      badge: gather.attendees.length,
+      query: {
+          userId: {$in: newInvites}
+      }, 
       gcm: {
         style: 'picture',
         picture: gather.mapUrl(),
@@ -198,11 +195,7 @@ export const inviteMany = new ValidatedMethod({
       },
       text: `Come join ${name} at 
       ${gather.displayName()}
-      ${date}`,
-      query: {
-          // Ex. send to a specific user if using accounts:
-          userId: {$in: newInvites}
-      } // Query the appCollection
+      ${date}`
     });
 
 

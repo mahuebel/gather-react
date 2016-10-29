@@ -176,19 +176,19 @@ export default class GatherPage extends Component {
 		}
 
 
-	    let loc     = gather.loc
+	 //    let loc     = gather.loc
 
-		let latTrans = .0007312 + loc.coordinates[0]
-		let lngTransZ14 = .0192011 + loc.coordinates[1]
-	    let lngTransZ13 = .035000 + loc.coordinates[1]
+		// let latTrans = .0007312 + loc.coordinates[0]
+		// let lngTransZ14 = .0192011 + loc.coordinates[1]
+	 //    let lngTransZ13 = .035000 + loc.coordinates[1]
 
-		let mapType = "&maptype=roadmap";
-	    let url     = "https://maps.google.com/maps/api/staticmap?center=" 
-	    			  + loc.coordinates[0] + "," + loc.coordinates[1] +
-	                  "&zoom=14&size=600x250&key=AIzaSyCbhTFXENjzhlS2P4nQyHlyRwqhzkeToSs"
-	                  +mapType+"&scale=2&sensor=false&markers=color:0x03A9F4%7C"
-	                 + loc.coordinates[0] + "," + loc.coordinates[1] 
-	                 + "&style=feature:landscape%7Celement:geometry.fill%7Ccolor:0xE1F5FE%7Cvisibility:on";
+		// let mapType = "&maptype=roadmap";
+	 //    let url     = "https://maps.google.com/maps/api/staticmap?center=" 
+	 //    			  + loc.coordinates[0] + "," + loc.coordinates[1] +
+	 //                  "&zoom=14&size=600x250&key=AIzaSyCbhTFXENjzhlS2P4nQyHlyRwqhzkeToSs"
+	 //                  +mapType+"&scale=2&sensor=false&markers=color:0x03A9F4%7C"
+	 //                 + loc.coordinates[0] + "," + loc.coordinates[1] 
+	 //                 + "&style=feature:landscape%7Celement:geometry.fill%7Ccolor:0xE1F5FE%7Cvisibility:on";
 	    // if (!listExists) {
 	    //   return <NotFoundPage />;
 	    // }
@@ -219,7 +219,7 @@ export default class GatherPage extends Component {
 					<div className="page gather-show container">
 						<Card>
 							<CardMedia>
-								<img src={url} />
+								<img src={gather.mapUrl()} />
 							</CardMedia>
 							<CardTitle title={gather.displayName()} />
 							<CardActions>

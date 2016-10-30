@@ -1,4 +1,5 @@
 import { Push } from 'meteor/raix:push';
+import { browserHistory } from 'react-router';
 
 Push.Configure({
   android: {
@@ -28,27 +29,24 @@ console.log(err)
 });
 
 Push.addListener('message', function(notification) {
-// Called on every message
-// alert(JSON.stringify(notification));
-console.log('message', notification)
+  // Called on every message
+  browserHistory.push(`/gather/${notification.payload.gatherId}`)
 });
 
 Push.addListener('alert', function(notification) {
     // Called when message got a message in forground
-  console.log('alert', notification)
 });
 
 Push.addListener('sound', function(notification) {
     // Called when message got a sound
-  console.log('sound', notification)
 });
 
 Push.addListener('badge', function(notification) {
     // Called when message got a badge
-  console.log('badge', notification)
 });
 
 Push.addListener('startup', function(notification) {
     // Called when message recieved on startup (cold+warm)
-  console.log('startup', notification)
+    browserHistory.push(`/gather/${notification.payload.gatherId}`)
+
 });

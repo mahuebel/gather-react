@@ -52,6 +52,10 @@ export const insert = new ValidatedMethod({
   },
 });
 
+const randInt = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 export const toggleAttendee = new ValidatedMethod({
   name: 'gathers.toggleAttendee',
   validate: new SimpleSchema({
@@ -85,7 +89,7 @@ export const toggleAttendee = new ValidatedMethod({
       let newGuy = Meteor.users.findOne(attendeeId)
 
       let name = newGuy.profile ? newGuy.profile.name : newGuy.username
-
+      
       
       attendees.push(attendeeId)
       
@@ -101,6 +105,10 @@ export const toggleAttendee = new ValidatedMethod({
           style: 'inbox',
           summaryText: 'There are %n% notifications'
         },
+        payload: {
+          gatherId: gatherId
+        },
+        notId: randInt(10000,50000),
         text: `${name} is down for ${gather.displayName()}
         ${moment(gather.start).format("ddd MMM Do, h:mm a")}`
       });
@@ -193,6 +201,10 @@ export const inviteMany = new ValidatedMethod({
         ${date} summary`,
         image: 'https://gather-meteor.herokuapp.com/gather_logo.svg'
       },
+      payload: {
+        gatherId: gatherId
+      },
+      notId: randInt(10000,50000),
       text: `Come join ${name} at 
       ${gather.displayName()}
       ${date}`

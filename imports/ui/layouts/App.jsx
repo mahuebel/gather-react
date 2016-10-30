@@ -1,15 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
 import Tracker from 'tracker-component';
-// import { Accounts, STATES } from 'meteor/std:accounts-material';
-// import { Accounts } from 'meteor/accounts-ui';
-// import { Accounts, STATES } from 'meteor/zetoff:accounts-material-ui';
+
 import AccountsUIWrapper from '../AccountsUIWrapper.jsx';
 
 import { Gathers } from '../../api/gathers/gathers.js';
 import { Session } from 'meteor/session';
 import { browserHistory, Link } from 'react-router';
-
  
 import NavBar from '../components/NavBar.jsx';
 import DrawerMenu from '../components/DrawerMenu.jsx';
@@ -17,9 +14,8 @@ import Main from '../pages/Main.jsx';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Loading from '../components/Loading.jsx';
-
-import Blaze from 'meteor/gadicc:blaze-react-component';
  
+
 export default class App extends Tracker.Component {
 	constructor(props) {
 		super(props);

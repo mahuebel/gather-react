@@ -5,7 +5,7 @@ export const Users = Meteor.users;
 Users.helpers({
 	friends() {
 		let friendsList = this.friendsList || []
-		return Users.find({_id: {$in: friendsList }}).fetch()
+		return Users.find({_id: {$in: friendsList }}).fetch() || []
 	},
 	displayName() {
 		return this.profile ? this.profile.name : this.username;

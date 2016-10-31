@@ -27,6 +27,14 @@ export default class AddFriendsPage extends Component {
 	renderUsers() {
 	    let { users, currentUser } = this.props
 
+	    if (!users|| users.length === 0) {
+	    	return (
+	    		<div className="center-align">
+	    			No users yet. 
+	    		</div>
+	    	)
+	    }
+
 	    return users.map((user) => (
 	        <SelectableUserItem 
 	          key={user._id} 

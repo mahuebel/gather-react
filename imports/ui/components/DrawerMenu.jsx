@@ -37,6 +37,11 @@ export default class DrawerMenu extends Component {
 	  	browserHistory.push('/')
 	  }
 
+	  handleGoFriends = () => {
+	  	this.toggleMenu()
+	  	browserHistory.push('/friends')
+	  }
+
 	render() {
 		const { currentUser } = this.props
 		let display = ""
@@ -55,7 +60,7 @@ export default class DrawerMenu extends Component {
 				>
 					<MenuItem onTouchTap={this.props.onClose} rightIcon={ <SocialPerson /> }>{display}</MenuItem>
 					<MenuItem onTouchTap={this.handleGoHome} leftIcon={ <ActionHome /> }>Home</MenuItem>
-					<MenuItem onTouchTap={this.props.onClose} leftIcon={ <SocialPeople /> }>Friends</MenuItem>
+					<MenuItem onTouchTap={this.handleGoFriends} leftIcon={ <SocialPeople /> }>Friends</MenuItem>
 					<MenuItem onTouchTap={this.props.onClose} leftIcon={ <SocialPeopleOutline /> }>Groups</MenuItem>
 					<Divider />
 					<MenuItem onTouchTap={this.props.onClose} leftIcon={ <ActionAllOut /> }>Radius</MenuItem>

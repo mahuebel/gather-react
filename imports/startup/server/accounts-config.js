@@ -8,6 +8,7 @@ if (Meteor.isServer) {
 	Accounts.onCreateUser(function(options, user) {
 	    if (options.profile) {
 	        options.profile.picture = "http://graph.facebook.com/" + user.services.facebook.id + "/picture/?type=large";
+	        options.profile.facebookId = user.services.facebook.id;
 	        user.profile = options.profile;
 	    }
 	    return user;

@@ -21,6 +21,7 @@ const GatherPageContainer = createContainer(({ params: { id } }) => {
     gather: Gathers.findOne(id),
     currentUser: user,
     inviteLists: InviteLists.find({userId: Meteor.userId()}).fetch(),
+    friends: user ? user.friends() : [],
     isFav,
     // attendees: listExists ? list.todos().fetch() : [],
   };

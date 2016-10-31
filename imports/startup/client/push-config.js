@@ -30,8 +30,7 @@ console.log(err)
 
 Push.addListener('message', function(notification) {
   // Called on every message
-  let url = `/gather/${notification.payload.gatherId}`
-  console.log(url)
+  let url = `${notification.payload.url}`
   browserHistory.push(url)
 });
 
@@ -49,8 +48,7 @@ Push.addListener('badge', function(notification) {
 
 Push.addListener('startup', function(notification) {
     // Called when message recieved on startup (cold+warm)
-    let url = `/gather/${notification.payload.gatherId}`
-    console.log(url)
+    let url = `${notification.payload.url}`
     browserHistory.push(url)
 
 });

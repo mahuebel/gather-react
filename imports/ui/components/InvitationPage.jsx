@@ -33,13 +33,14 @@ class InvitationPage extends Component {
   }
 
   renderFriends() {
-    let { friends } = this.props
+    let { friends, invited } = this.props
 
     return friends.map((user) => (
         <SelectableUserItem 
           key={user._id} 
           user={user}
-          onSelect={this.handleFriendSelect} 
+          onSelect={this.handleFriendSelect}
+          checked={(invited.indexOf(user._id) > -1)} 
         />
       ));
   }

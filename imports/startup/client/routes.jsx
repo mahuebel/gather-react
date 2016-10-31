@@ -5,21 +5,24 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-ui';
 
 // route components
+
+//Data Containers
 import AppContainer from '../../ui/containers/AppContainer.jsx';
 import GatherPageContainer from '../../ui/containers/GatherPageContainer.jsx';
+import FriendsPageContainer from '../../ui/containers/FriendsPageContainer.jsx';
+import MainContainer from '../../ui/containers/MainContainer.jsx';
 
+//Pages
 import AuthPageSignIn from '../../ui/pages/AuthPageSignIn.jsx';
 import AuthPageJoin from '../../ui/pages/AuthPageJoin.jsx';
 import NotFoundPage from '../../ui/pages/NotFoundPage.jsx';
-import MainContainer from '../../ui/containers/MainContainer.jsx';
 
 
 function requireAuth(nextState, replace) {
 	let user = Meteor.user()
-	console.log("Meteor user here is", user)
 
 	setTimeout(() => {
-		console.log("Meteor user here is", user)
+		// console.log("Meteor user here is", user)
 		if (!user) {
 	        replace({
 	            pathname: 'signin',
@@ -33,10 +36,9 @@ function requireAuth(nextState, replace) {
 
 function requireNonAuth(nextState, replace) {
 	let user = Meteor.user()
-	console.log("Meteor user here is", user)
 
 	setTimeout(() => {
-		console.log("Meteor user here is", user)
+		// console.log("Meteor user here is", user)
 		if (user) {
 	        replace({
 	            pathname: '/',
@@ -53,8 +55,9 @@ export const renderRoutes = () => (
 
 
 		<Route path="/" component={ AppContainer } >
-	        <IndexRoute component={ MainContainer }  onEnter={ requireAuth } />
+	        <IndexRoute component={ MainContainer } onEnter={ requireAuth } />
 			<Route path="/gather/:id" component={ GatherPageContainer } />
+			<Route path="/friends" component={ FriendsPageContainer } onEnter={ requireAuth } />
 			<Route path="signin" component={ AuthPageSignIn } onEnter={ requireNonAuth } />
       		<Route path="signup" component={ AuthPageJoin } onEnter={ requireNonAuth } />
 		</Route>

@@ -15,13 +15,12 @@ export default class UserItem extends Component {
 	}
 	render() {
 		let { user } = this.props
-		let uProfile = user.profile
-		let picUrl = uProfile ? uProfile.picture : ""
+		// console.log(user.displayName())
 		return (
 			<div>
 				<ListItem
-					leftIcon={<Avatar src={picUrl} />}
-					primaryText={uProfile ? uProfile.name : user.username}
+					leftIcon={<Avatar src={user.avatarUrl()} />}
+					primaryText={user.displayName()}
 					rightIcon={ <SocialPerson />}
 				/>
 				<Divider />

@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 import { Gathers } from '../gathers.js';
+import { Users } from '../../users/users.js'
 // import { Lists } from '../../lists/lists.js';
 
 Meteor.publishComposite('gather.byId', function gatherById(params) {
@@ -28,7 +29,7 @@ Meteor.publishComposite('gather.byId', function gatherById(params) {
 
     children: [{
       find(gather) {
-        return Meteor.users.find({$or: [ { _id: {$in: gather.attendees} }, { _id: {$in: gather.invited} } ] }).fetch();
+        return Users.find({$or: [ { _id: {$in: gather.attendees} }, { _id: {$in: gather.invited} } ] }).fetch();
       },
     }],
   };

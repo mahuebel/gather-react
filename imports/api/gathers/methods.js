@@ -8,6 +8,7 @@ import { Push } from 'meteor/raix:push';
 
 import moment from 'moment';
 
+import {Users} from '../users/users.js';
 
 import { Gathers, LocationSchema } from './gathers.js';
 import { InviteLists } from '../invite-lists/invite-lists.js';
@@ -86,7 +87,7 @@ export const toggleAttendee = new ValidatedMethod({
       }
     } else {
 
-      let newGuy = Meteor.users.findOne(attendeeId)
+      let newGuy = Users.findOne(attendeeId)
 
       let name = newGuy.profile ? newGuy.profile.name : newGuy.username
       
@@ -106,7 +107,7 @@ export const toggleAttendee = new ValidatedMethod({
           summaryText: 'There are %n% notifications'
         },
         payload: {
-          gatherId: gatherId
+          url: `/gather/${gatherId}`
         },
         notId: randInt(10000,50000),
         text: `${name} is down for ${gather.displayName()}
@@ -177,7 +178,7 @@ export const inviteMany = new ValidatedMethod({
       }
     }
 
-    let inviter = Meteor.users.findOne(userId)
+    let inviter = Users.findOne(userId)
 
     let name = inviter.profile ? inviter.profile.name : inviter.username
 
@@ -202,7 +203,7 @@ export const inviteMany = new ValidatedMethod({
         image: 'https://gather-meteor.herokuapp.com/gather_logo.svg'
       },
       payload: {
-        gatherId: gatherId
+        url: `/gather/${gatherId}`
       },
       notId: randInt(10000,50000),
       text: `Come join ${name} at 
@@ -243,7 +244,7 @@ export const inviteList = new ValidatedMethod({
       } 
     }
 
-    let inviter = Meteor.users.findOne(userId)
+    let inviter = Users.findOne(userId)
 
     let name = inviter.profile ? inviter.profile.name : inviter.username
 

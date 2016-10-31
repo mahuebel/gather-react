@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 
 import { inviteMany, inviteList, toggleAttendee } from '../../api/gathers/methods.js';
 import { Gathers } from '../../api/gathers/gathers.js';
+import { Users } from '../../api/users/users.js';
 
 import NotFoundPage from '../pages/NotFoundPage.jsx';
 
@@ -27,6 +28,8 @@ import ActionFavorite  from 'material-ui/svg-icons/action/favorite';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import { pink100, pinkA200, lightBlueA400 } from 'material-ui/styles/colors.js';
+
+import moment from 'moment';
 
 
 export default class GatherPage extends Component {
@@ -157,10 +160,7 @@ export default class GatherPage extends Component {
 		let isFav = (gather.attendees.indexOf(currentUser._id) > -1)
 
 		if (editingGather) { 
-			let { inviteLists } = this.props
-			console.log(currentUser)
-			let friends = Meteor.users.find({}).fetch()
-			console.log(friends)
+			let { inviteLists, friends } = this.props
 			return (
 				<MuiThemeProvider>
 					<InvitationPage 
@@ -175,23 +175,6 @@ export default class GatherPage extends Component {
 			);
 		}
 
-
-	 //    let loc     = gather.loc
-
-		// let latTrans = .0007312 + loc.coordinates[0]
-		// let lngTransZ14 = .0192011 + loc.coordinates[1]
-	 //    let lngTransZ13 = .035000 + loc.coordinates[1]
-
-		// let mapType = "&maptype=roadmap";
-	 //    let url     = "https://maps.google.com/maps/api/staticmap?center=" 
-	 //    			  + loc.coordinates[0] + "," + loc.coordinates[1] +
-	 //                  "&zoom=14&size=600x250&key=AIzaSyCbhTFXENjzhlS2P4nQyHlyRwqhzkeToSs"
-	 //                  +mapType+"&scale=2&sensor=false&markers=color:0x03A9F4%7C"
-	 //                 + loc.coordinates[0] + "," + loc.coordinates[1] 
-	 //                 + "&style=feature:landscape%7Celement:geometry.fill%7Ccolor:0xE1F5FE%7Cvisibility:on";
-	    // if (!listExists) {
-	    //   return <NotFoundPage />;
-	    // }
 	    let splitPlace = gather.place.split(",")[0]
 
 	    const styles = {
@@ -221,12 +204,12 @@ export default class GatherPage extends Component {
 							<CardMedia>
 								<img src={gather.mapUrl()} />
 							</CardMedia>
-							<CardTitle title={gather.displayName()} />
+							<CardTitle title={gather.displayName()} subtitle={moment(gather.start).format("ddd MMM Do, h:mm a")} />
 							<CardActions>
 								<Checkbox
 							      checkedIcon={<ActionFavorite />}
 							      uncheckedIcon={<ActionFavoriteBorder />}
-							      label="Count me in!"
+							      label="I'm in!"
 							      checked={this.state.isFav}
 							      onCheck={this.handleFav}
 							      inputStyle={{color: "#03A9F4"}}
@@ -259,6 +242,7 @@ GatherPage.propTypes = {
   gather: PropTypes.object.isRequired,
   currentUser: PropTypes.object,
   inviteLists: React.PropTypes.array,
+  friends: React.PropTypes.array,
   isFav: React.PropTypes.bool,
   // attendees: React.PropTypes.object,
   // invited: React.PropTypes.object,

@@ -5,6 +5,8 @@ import { Meteor } from 'meteor/meteor';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import BaseCollection from '../base-collection.js';
 
+import {Users} from '../users/users.js';
+
 
 class GathersCollection extends BaseCollection {
 	insert(doc, callback) {
@@ -93,7 +95,7 @@ Gathers.helpers({
 	},
 	attendingUsers() {
 		if (this.attendees)
-			return Meteor.users.find({_id: {$in: this.attendees}})
+			return Users.find({_id: {$in: this.attendees}})
 	},
 	invitedUsers() {
 		if (this.invited && this.attendees){
@@ -104,11 +106,11 @@ Gathers.helpers({
 				return !(atnds.indexOf(user) > -1)
 			});
 
-			return Meteor.users.find({_id: {$in: filteredInvited}})
+			return Users.find({_id: {$in: filteredInvited}})
 		}
 	},
 	creator() {
-		return Meteor.users.findOne(this.creatorId)
+		return Users.findOne(this.creatorId)
 	},
 	mapUrl() {
 		let loc     = this.loc

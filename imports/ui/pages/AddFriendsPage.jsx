@@ -35,11 +35,13 @@ export default class AddFriendsPage extends Component {
 	    	)
 	    }
 
+	    let list = currentUser.friendsList || []
+
 	    return users.map((user) => (
 	        <SelectableUserItem 
 	          key={user._id} 
 	          user={user}
-	          checked={(currentUser.friendsList.indexOf(user._id) > -1)}
+	          checked={(list.indexOf(user._id) > -1)}
 	          onSelect={this.handleUserSelect} 
 	        />
 	    ));

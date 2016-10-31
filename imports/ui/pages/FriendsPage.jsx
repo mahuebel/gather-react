@@ -39,15 +39,12 @@ export default class FriendsPage extends Component {
   		let checkedUsers = []
 		let $inputs = $(event.target).find('input')
 
-		console.log($inputs)
-
 		// iterate over all the form's inputs and on the checked ones, 
 		// add them to the appropriate array
 		for (var i=0; i<$inputs.length; i++) {
 			let input = $inputs[i]
 			let userId = input.value.split("user-")[1]
 			if (input.checked) {
-				console.log(`${userId} ${input}`, checkedUsers)
 				if (checkedUsers.indexOf(userId) === -1) {
 					checkedUsers.push(userId)
 				}
@@ -65,13 +62,12 @@ export default class FriendsPage extends Component {
 
 		// call the method to add the new list of invitees
 		// if (newInvites.length > 0){
-			let addObj = {
-				userId: currentUser._id,
-				inviteeIds: newInvites,
-				allFriends: checkedUsers
-			}
-			console.log("add obj,",addObj)
-			addFriends.call(addObj)
+		let addObj = {
+			userId: currentUser._id,
+			inviteeIds: newInvites,
+			allFriends: checkedUsers
+		}
+		addFriends.call(addObj)
 		// }
 
 		this.toggleAddFriends()

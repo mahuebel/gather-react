@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Tracker from 'tracker-component';
 import { Meteor } from 'meteor/meteor';
+import { browserHistory } from 'react-router';
 
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
@@ -59,11 +60,16 @@ class NavBar extends Tracker.Component {
     })
   }
 
+  handleTouchTap = () => {
+    browserHistory.push('/')
+  }
+
   render() {
     return (
       <div>
         <AppBar
           title="Gather"
+          onTitleTouchTap={this.handleTouchTap}
           style={{position: 'fixed', background: lightBlue800}}
           className="nav-bar"
           onLeftIconButtonTouchTap={this.props.handleDrawerToggle}

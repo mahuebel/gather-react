@@ -3,6 +3,8 @@ import { Mongo } from 'meteor/mongo';
 import BaseCollection from '../base-collection.js';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
+import { Users } from '../users/users.js';
+
 
 class InviteListsCollection extends BaseCollection {
 	insert(doc, callback) {
@@ -43,6 +45,9 @@ InviteLists.publicFields = {
 };
 
 InviteLists.helpers({
+	users() {
+		return Users.find({_id: {$in: this.userIds}}).fetch() || []
+	},
 	suggestedUsers() {
 		let users = []
 		let gathers = Gathers.find({invited: {$all: this.userIds}}).fetch()

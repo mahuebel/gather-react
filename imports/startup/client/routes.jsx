@@ -9,6 +9,7 @@ import { Accounts } from 'meteor/accounts-ui';
 //Data Containers
 import AppContainer from '../../ui/containers/AppContainer.jsx';
 import GatherPageContainer from '../../ui/containers/GatherPageContainer.jsx';
+import GroupPageContainer from '../../ui/containers/GroupPageContainer.jsx';
 import FriendsPageContainer from '../../ui/containers/FriendsPageContainer.jsx';
 import MainContainer from '../../ui/containers/MainContainer.jsx';
 
@@ -57,6 +58,7 @@ export const renderRoutes = () => (
 		<Route path="/" component={ AppContainer } >
 	        <IndexRoute component={ MainContainer } onEnter={ requireAuth } />
 			<Route path="/gather/:id" component={ GatherPageContainer } />
+			<Route path="/groups" component={ GroupPageContainer } onEnter={ requireAuth } />
 			<Route path="/friends" component={ FriendsPageContainer } onEnter={ requireAuth } />
 			<Route path="signin" component={ AuthPageSignIn } onEnter={ requireNonAuth } />
       		<Route path="signup" component={ AuthPageJoin } onEnter={ requireNonAuth } />

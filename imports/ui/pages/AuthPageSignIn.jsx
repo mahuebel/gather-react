@@ -67,7 +67,6 @@ export default class SignInPage extends Component {
   }
 
   render() {
-    console.log("render() AuthPageSignin", this.state)
     const errors = this.state ? this.state.errors : {};
     const errorMessages = Object.keys(errors).map(key => errors[key]);
     const errorClass = key => errors[key] && 'error';

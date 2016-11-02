@@ -8,7 +8,7 @@ import Divider from 'material-ui/Divider';
 
 import UserItem from '../components/UserItem.jsx'; 
 import SelectableUserItem from '../components/SelectableUserItem.jsx'; 
-import SelectableInviteListItem from '../components/SelectableUserItem.jsx'; 
+import SelectableInviteListItem from '../components/SelectableInviteListItem.jsx'; 
 import Loading from '../components/Loading.jsx'; 
 
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
@@ -87,6 +87,7 @@ export default InvitationPage;
 
 InvitationPage.propTypes = {
   friends: React.PropTypes.array,
+  currentUser: React.PropTypes.object,
   inviteLists: React.PropTypes.array,
   // invited: React.PropTypes.object,
   // listExists: React.PropTypes.bool,

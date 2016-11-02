@@ -33,8 +33,6 @@ export default class GroupPage extends Component {
 	renderGroups() {
 		let { inviteLists } = this.props
 
-		console.log(inviteLists)
-
 		if (!inviteLists || inviteLists.length === 0) {
 			return (
 	    		<div className="center-align">
@@ -58,11 +56,7 @@ export default class GroupPage extends Component {
   		let newInvites = []
   		let userIds = []
 
-		console.log($inputs)
-
 		let name = $inputs[0].value
-
-		console.log(name)
 
 		// iterate over all the form's inputs and on the checked ones, 
 		// add them to the appropriate array

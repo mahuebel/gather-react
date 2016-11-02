@@ -12,6 +12,7 @@ import ActionList from 'material-ui/svg-icons/action/list';
 export default class SelectableInviteListItem extends Component {
 	constructor(props) {
 		super(props)
+
 	}
 	render() {
 		let { list } = this.props

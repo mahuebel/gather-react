@@ -76,9 +76,7 @@ export default class JoinPage extends Component {
   }
 
   render() {
-    console.log("render() AuthPageJoin", this)
     const errors = this.state ? this.state.errors : {}
-    console.log("errors", errors)
 
     const errorMessages = Object.keys(errors).map(key => errors[key]);
     const errorClass = key => errors[key] && 'error';

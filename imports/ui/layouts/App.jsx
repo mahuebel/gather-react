@@ -50,7 +50,6 @@ export default class App extends Tracker.Component {
 
 	componentWillMount() {
 		// Check that the user is logged in before the component mounts
-		console.log("cwm App.jsx")
 	}
 
 	componentDidUpdate() {

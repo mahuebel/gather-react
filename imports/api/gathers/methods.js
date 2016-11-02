@@ -227,6 +227,7 @@ export const inviteList = new ValidatedMethod({
   }).validator(),
   run({ gatherId, inviteListId, userId }) {
     const gather = Gathers.findOne(gatherId);
+    
     let inviteList = InviteLists.findOne(inviteListId)
 
     let invited = gather.invited || [] 
@@ -235,14 +236,16 @@ export const inviteList = new ValidatedMethod({
       throw new Meteor.Error('api.gathers.inviteOne.accessDenied',
       'Cannot invite people to a private gathering you have not been invited to');
     }
-
     
 
-    for(var i=0; i<inviteList.userIds; i++) {
+    for(var i=0; i<inviteList.userIds.length; i++) {
+      let inviteeId = inviteList.userIds[i]
       if (!(invited.indexOf(inviteeId) > -1)) {
         invited.push(inviteeId)
+        console.log(inviteeId)
       } 
     }
+
 
     let inviter = Users.findOne(userId)
 
@@ -250,19 +253,28 @@ export const inviteList = new ValidatedMethod({
 
     let date    = moment(gather.start).format("ddd MMM Do, h:mm a")
 
-    Push.send({
+    var p = Push.send({
       from: 'push',
-      title: `${name} wants you to hang out at ${gather.displayName()}`,
-      text: `Come join ${name}, ...display mutual friends going here... at ${gather.displayName()} | ${date}`,
-      badge: 1, //optional, use it to set badge count of the receiver when the app is in background.
+      title: `${name} wants to gather at ${gather.displayName()}`,
+      badge: gather.attendees.length,
       query: {
-          // Ex. send to a specific user if using accounts:
-          userId: {$in: inviteList.userIds}
-      } // Query the appCollection
-      // token: appId or token eg. "{ apn: token }"
-      // tokens: array of appId's or tokens
-      // payload: user data
-      // delayUntil: Date
+          userId: {$in: invited}
+      }, 
+      gcm: {
+        style: 'picture',
+        picture: gather.mapUrl(),
+        summaryText: `Come join ${name} at 
+        ${gather.displayName()} 
+        ${date} summary`,
+        image: 'https://gather-meteor.herokuapp.com/gather_logo.svg'
+      },
+      payload: {
+        url: `/gather/${gatherId}`
+      },
+      notId: randInt(10000,50000),
+      text: `Come join ${name} at 
+      ${gather.displayName()}
+      ${date}`
     });
 
 
@@ -271,7 +283,6 @@ export const inviteList = new ValidatedMethod({
     } });
   } 
 })
-
 
 export const remove = new ValidatedMethod({
   name: 'gathers.remove',

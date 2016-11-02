@@ -13,7 +13,7 @@ import SocialPerson from 'material-ui/svg-icons/social/person';
 export default class SelectableUserItem extends Component {
 	constructor(props) {
 		super(props)
-
+		let { user } = this.props
 		this.state = {
 			checked: this.props.checked
 		}
@@ -29,6 +29,7 @@ export default class SelectableUserItem extends Component {
 	render() {
 		let { user } = this.props
 		let { checked } = this.state
+
 		return (
 			<div>
 				<ListItem
@@ -46,5 +47,6 @@ export default class SelectableUserItem extends Component {
 
 SelectableUserItem.propTypes = {
 	checked: React.PropTypes.bool,
+	user: React.PropTypes.object,
 }
 

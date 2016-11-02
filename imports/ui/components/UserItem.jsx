@@ -23,7 +23,6 @@ export default class UserItem extends Component {
 					primaryText={user.displayName()}
 					rightIcon={ <SocialPerson />}
 				/>
-				<Divider />
 			</div>
 		);
 	}

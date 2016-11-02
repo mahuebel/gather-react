@@ -39,7 +39,6 @@ export default class SelectableUserItem extends Component {
 					onTouchTap={this.props.onSelect}
 
 				/>
-				<Divider />
 			</div>
 		);
 	}

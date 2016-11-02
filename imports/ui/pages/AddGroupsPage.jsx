@@ -20,12 +20,29 @@ export default class AddGroupsPage extends Component {
 	constructor(props) {
 		super(props)
 		this.renderUsers = this.renderUsers.bind(this)
+		this.state = {
+			search: ''
+		}
 	}
+
+	handleSearch = (event) => {
+      this.setState({
+        search: event.target.value
+      })
+    }
 
 	renderUsers() {
 	    let { friends, currentUser, groupUsers } = this.props
 
-	    if (!friends|| friends.length === 0) {
+	    let { search } = this.state
+
+	    let filteredFriends = friends.filter(
+	      (user) => {
+	        return (user.profile ? user.profile.name.toLowerCase().indexOf(search.toLowerCase()) !== -1 : user.username.toLowerCase().indexOf(search.toLowerCase()) !== -1)
+	      }
+	    )
+
+	    if (!filteredFriends|| filteredFriends.length === 0) {
 	    	return (
 	    		<div className="center-align">
 	    			No friends yet. 
@@ -35,7 +52,7 @@ export default class AddGroupsPage extends Component {
 
 	    let list = groupUsers || []
 
-	    return friends.map((user) => (
+	    return filteredFriends.map((user) => (
 	        <SelectableUserItem 
 	          key={user._id} 
 	          user={user}
@@ -45,9 +62,17 @@ export default class AddGroupsPage extends Component {
 	}
 
 	render() {
+    	let { search } = this.state
 		return (
 			<div className="container">
 				<form className="add-invite-list" onSubmit={this.props.onDone}>
+					
+					<TextField
+						hintText="Search Friends..."
+						fullWidth={true}
+						value={search}
+	            		onChange={this.handleSearch}
+					/>
 					<TextField
 					hintText="Group Name"
 					fullWidth={true}

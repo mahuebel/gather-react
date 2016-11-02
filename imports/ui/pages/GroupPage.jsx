@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 import FlatButton from 'material-ui/FlatButton';
 import {List, ListItem} from 'material-ui/List';
+import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import Subheader from 'material-ui/Subheader';
@@ -26,14 +27,29 @@ export default class GroupPage extends Component {
 
 		this.state = {
 			editingList: false,
+			search: '',
 			groupUsers: []
 		};
 	}
 
+	handleSearch = (event) => {
+		this.setState({
+			search: event.target.value
+		})
+	}
+
 	renderGroups() {
 		let { inviteLists } = this.props
+		let { search } = this.state
 
-		if (!inviteLists || inviteLists.length === 0) {
+		let filteredLists = inviteLists.filter(
+			(list) => {
+				return (list.name.toLowerCase().indexOf(search.toLowerCase()) !== -1)
+			}	
+		)
+
+
+		if (!filteredLists || filteredLists.length === 0) {
 			return (
 	    		<div className="center-align">
 	    			No groups yet. 
@@ -41,7 +57,7 @@ export default class GroupPage extends Component {
 	    	)
 		}
 
-		return inviteLists.map((list) => (
+		return filteredLists.map((list) => (
 			<GroupList key={list._id} users={list.users()} name={list.name} onClick={this.onGroupSelect} />
 		))
 	}
@@ -120,7 +136,7 @@ export default class GroupPage extends Component {
 
 	render() {
 		let { loading, currentUser, friends, users } = this.props
-		let { editingList, groupUsers } = this.state
+		let { editingList, groupUsers, search } = this.state
 
 		if (loading) {
 			return <Loading />
@@ -157,6 +173,12 @@ export default class GroupPage extends Component {
 
 	    return (
 	    	<div className="container">
+	    		<TextField
+		            hintText="Search..."
+		            fullWidth={true}
+		            value={search}
+		            onChange={this.handleSearch}
+		        />
 	    		<List>
 			    	<Subheader>Groups</Subheader>
 			    	{this.renderGroups()}

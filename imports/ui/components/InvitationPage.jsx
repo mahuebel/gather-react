@@ -4,6 +4,7 @@ import {List, ListItem} from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import FlatButton from 'material-ui/FlatButton';
 import Subheader from 'material-ui/Subheader';
+import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
 
 import UserItem from '../components/UserItem.jsx'; 
@@ -18,12 +19,26 @@ import NavigationCheck from 'material-ui/svg-icons/navigation/check';
 class InvitationPage extends Component {
   state = {
     // logged: (this.props.currentUser != undefined),
+    search: ''
   };
+
+  handleSearch = (event) => {
+    this.setState({
+      search: event.target.value
+    })
+  }
 
   renderInviteLists() {
     let { inviteLists } = this.props
+    let { search } = this.state
 
-    return inviteLists.map((list) => (
+    let filteredLists = inviteLists.filter(
+      (list) => {
+        return (list.name.toLowerCase().indexOf(search.toLowerCase()) !== -1)
+      }
+    )
+
+    return filteredLists.map((list) => (
         <SelectableInviteListItem 
           key={list._id} 
           list={list} 
@@ -34,8 +49,15 @@ class InvitationPage extends Component {
 
   renderFriends() {
     let { friends, invited } = this.props
+    let { search } = this.state
 
-    return friends.map((user) => (
+    let filteredFriends = friends.filter(
+      (user) => {
+        return (user.profile ? user.profile.name.toLowerCase().indexOf(search.toLowerCase()) !== -1 : user.username.toLowerCase().indexOf(search.toLowerCase()) !== -1)
+      }
+    )
+
+    return filteredFriends.map((user) => (
         <SelectableUserItem 
           key={user._id} 
           user={user}
@@ -55,8 +77,15 @@ class InvitationPage extends Component {
   } 
 
   render() {
+    let { search } = this.state
     return (
       <div className="container">
+        <TextField
+            hintText="Search..."
+            fullWidth={true}
+            value={search}
+            onChange={this.handleSearch}
+        />
         <form className="gather-invite" onSubmit={this.props.onDone}>
           <List>
             <Subheader>Invite Lists</Subheader>

@@ -4,6 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import {List, ListItem} from 'material-ui/List';
 import IconButton from 'material-ui/IconButton';
+import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import Subheader from 'material-ui/Subheader';
 import SocialPersonAdd from 'material-ui/svg-icons/social/person-add';
@@ -23,12 +24,19 @@ export default class FriendsPage extends Component {
 		this.renderFriends = this.renderFriends.bind(this)
 
 		this.state = {
-			addingFriends: false
+			addingFriends: false,
+			search: ''
 		};
 	}
 
     //actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
   	//subtitle={<span>by <b>{tile.author}</b></span>}
+
+  	handleSearch = (event) => {
+  		this.setState({
+  			search: event.target.value
+  		})
+  	}
 
   	handleAddFriends = (event) => {
   		event.preventDefault()
@@ -83,8 +91,15 @@ export default class FriendsPage extends Component {
 
 	renderFriends() {
 	    let { friends } = this.props
+	    let { search } = this.state
 
-	    if (!friends || friends.length === 0) {
+	    let filteredFriends = friends.filter(
+	    	(user) => {
+	    		return (user.profile ? user.profile.name.toLowerCase().indexOf(search.toLowerCase()) !== -1 : user.username.toLowerCase().indexOf(search.toLowerCase()) !== -1)
+	    	}
+	    )
+
+	    if (!filteredFriends || filteredFriends.length === 0) {
 	    	return (
 	    		<div className="center-align">
 	    			No friends yet. 
@@ -92,7 +107,7 @@ export default class FriendsPage extends Component {
 	    	)
 	    }
 
-	    return friends.map((user) => (
+	    return filteredFriends.map((user) => (
 	        <UserItem 
 	          key={user._id} 
 	          user={user}
@@ -106,7 +121,7 @@ export default class FriendsPage extends Component {
 	render() {
 
 		let { loading, friends, users } = this.props
-		let { addingFriends } = this.state
+		let { addingFriends, search } = this.state
 
 		if (loading) {
 			return <Loading />
@@ -148,6 +163,12 @@ export default class FriendsPage extends Component {
 
 		return (
 			<div className="container">
+				<TextField
+					hintText="Search..."
+					fullWidth={true}
+					value={search}
+					onChange={this.handleSearch}
+				/>
 				<List>
 			    	<Subheader>Friends</Subheader>
 			    	{this.renderFriends()}

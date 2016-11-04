@@ -88,7 +88,7 @@ class InvitationPage extends Component {
         />
         <form className="gather-invite" onSubmit={this.props.onDone}>
           <List>
-            <Subheader>Invite Lists</Subheader>
+            <Subheader>Groups</Subheader>
             {this.renderInviteLists()}
             <Divider />
             <Subheader>All Friends</Subheader>

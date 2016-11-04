@@ -38,7 +38,6 @@ export default class DrawerMenu extends Component {
 	  }
 
 	  handleGoGroups = () => {
-	  	console.log('hmm')
 	  	this.toggleMenu()
 	  	browserHistory.push('/groups')
 	  }

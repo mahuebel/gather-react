@@ -89,7 +89,6 @@ export default class GatherPage extends Component {
 		let listInvites = []
 		let $inputs = $(event.target).find('input')
 
-		console.log($inputs)
 
 		// iterate over all the form's inputs and on the checked ones, 
 		// add them to the appropriate array
@@ -107,7 +106,6 @@ export default class GatherPage extends Component {
 				}
 				else {
 					// its a list!
-					console.log("yo, its a list")
 					let listId = input.value.split("list-")[1]
 					if (listInvites.indexOf(listId) === -1) {
 						listInvites.push(listId)
@@ -135,7 +133,6 @@ export default class GatherPage extends Component {
 				    inviteListId: listInvites[j],
 				    userId: currentUser._id
 				}
-				console.log(listObj)
 				inviteList.call(listObj)
 			}
 		}

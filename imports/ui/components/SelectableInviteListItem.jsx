@@ -33,9 +33,6 @@ export default class SelectableInviteListItem extends Component {
 	        )
 	    }
 
-	    console.log(users)
-	    console.log(userItems)
-
 		return (
 			<div>
 				<ListItem

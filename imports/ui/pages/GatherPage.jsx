@@ -113,7 +113,6 @@ export default class GatherPage extends Component {
 				}
 			}
 		}
-		console.log(listInvites)
 
 		// call the method to add the new list of invitees
 		if (newInvites.length > 0){

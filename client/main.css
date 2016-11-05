@@ -151,6 +151,11 @@ img.loading-app {
   	margin-left: -100px;
 }
 
+div.list-errors {
+	font-weight: 300;
+	color: red;
+}
+
 div.place-picker input {
 	/*padding-top: 10px;
 	padding-bottom: 10px;

@@ -99,8 +99,6 @@ export default class GroupPage extends Component {
 			userIds,
 		}
 
-		console.log(addGroupObj)
-
 		insert.call(addGroupObj)
 
 		this.setState({

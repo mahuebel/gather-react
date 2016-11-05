@@ -19,7 +19,7 @@ export default class SignInPage extends Component {
 
   onSubmit(event) {
     event.preventDefault();
-    console.log(this)
+
     const username = this.username.input.value.trim();
     const password = this.password.input.value;
     const errors = {};

@@ -20,8 +20,10 @@ export default class AddGroupsPage extends Component {
 	constructor(props) {
 		super(props)
 		this.renderUsers = this.renderUsers.bind(this)
+		this.onSubmit = this.onSubmit.bind(this)
 		this.state = {
-			search: ''
+			search: '',
+			errors: {}
 		}
 	}
 
@@ -61,18 +63,45 @@ export default class AddGroupsPage extends Component {
 	    ));
 	}
 
+	onSubmit(event) {
+		event.preventDefault()
+		const errors = {}
+
+		if (!$(event.target).find('input')[0].value) {
+			errors.name = "Your group needs a name"
+		}
+		console.log(this)
+		this.setState({ errors });
+
+	    if (Object.keys(errors).length) {
+	      return;
+	    }
+
+		this.props.onDone(event)
+	}
+
 	render() {
+
+		const errors = this.state ? this.state.errors : {}
+    	const errorMessages = Object.keys(errors).map(key => errors[key]);
+    	const errorClass = key => errors[key] && 'error';
+
     	let { search } = this.state
 		return (
 			<div className="container">
-				<form className="add-invite-list" onSubmit={this.props.onDone}>
+				<TextField
+					hintText="Search Friends..."
+					fullWidth={true}
+					value={search}
+            		onChange={this.handleSearch}
+				/>
+				<form className="add-invite-list" onSubmit={this.onSubmit}>
+					<div className="list-errors center-align">
+		              {errorMessages.map(msg => (
+		                <div className="list-item" key={msg}>{msg}</div>
+		              ))}
+		            </div>
 					
-					<TextField
-						hintText="Search Friends..."
-						fullWidth={true}
-						value={search}
-	            		onChange={this.handleSearch}
-					/>
 					<TextField
 					hintText="Group Name"
 					fullWidth={true}
